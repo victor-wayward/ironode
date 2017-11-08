@@ -1,0 +1,6 @@
+
+# ignore node module directory
+node_modules/
+
+# ignore logs directory
+logs/
