@@ -1,0 +1,44 @@
+
+					<!-- this block appears only in small devices < 768px -->
+					<ul class="user-nav hidden-md-up"> 
+						{{#if user}}
+							<!-- <li class="nav-item"><p class="shout m-0">{{user.username}} !!</p></li> -->
+							<img src="/img/lips.png" alt="lips">
+							<li class="nav-item"><a href="/profile" class="noshout">{{I18n "nav.PROFILE"}}</a></li>						
+							<li class="nav-item"><a href="/logout" class="noshout">{{I18n "nav.LOGOUT"}}</a></li>
+						{{^}}
+							<li class="nav-item"><a href="/login" class="noshout">{{I18n "nav.LOGIN"}}</a></li>
+							<li class="nav-item"><a href="/register" class="shout">{{I18n "nav.REGISTER"}}</a></li>
+						{{/if}}
+					</ul>
+
+					
+					
+					<!-- this block appears only in large devices >= 768px -->
+					<!-- Login/Register Bar -->
+					<ul class="user-nav hidden-sm-down"> 
+						{{#if user}}
+							<li class="nav-item"><p class="shout m-0">{{user.username}} !!</p></li>
+							<li class="nav-item"><a href="/logout" class="noshout">{{I18n "nav.LOGOUT"}}</a></li>
+						{{^}}
+							<li class="nav-item"><a href="/login" class="noshout">{{I18n "nav.LOGIN"}}</a></li>
+							<li class="nav-item"><a href="/register" class="shout">{{I18n "nav.REGISTER"}}</a></li>
+						{{/if}}
+					</ul>
+					
+					{{#if user}}
+					<div class="btn-group hidden-sm-down">
+						<button type="button" class="btn btn-default dropdown-toggle userbtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<img src="/img/lips50.png" alt="lips">
+							<span class="glyphicon glyphicon-chevron-down"></span>
+						</button>
+						<ul class="dropdown-menu dropdown-menu-right menu-nav">
+							<li class="nav-item"><a href="/profile">{{I18n "nav.PROFILE"}}</a></li>
+						</ul>
+					</div>
+					{{^}}
+					<img src="/img/lips.png" alt="lips">
+					{{/if}}
+
+					
+					

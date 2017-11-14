@@ -4,3 +4,8 @@ node_modules/
 
 # ignore logs directory
 logs/
+
+# ignore external libs, fonts, avatar directories
+public/avatar
+public/ext
+

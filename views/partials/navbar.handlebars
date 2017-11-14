@@ -1,0 +1,44 @@
+
+<nav class="navbar navbar-toggleable-sm p-0 navbar-light">
+	
+	<!-- Logo -->
+	<a class="navbar-brand p-0 text-left" href="/">
+		<img src="/img/logo.png" class="hidden-sm-down" alt="logo">
+		<img src="/img/mlogo.png" class="hidden-md-up" alt="logo">
+	</a>
+	
+	<!-- Toggler -->
+	<button class="navbar-toggler navbar-toggler-right mt-3" type="button" 
+			data-toggle="collapse" data-target="#nav-content" aria-controls="nav-content" 
+			aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	
+	<!-- Right Collapse -->
+	<div class="collapse navbar-collapse justify-content-end" id="nav-content">   
+			
+		<!-- Small Devices -->
+		<div class="container-fluid text-center hidden-md-up p-0 margin-top">
+			<div class="row m-0 p-0">
+				<div class="col-4 m-0 p-0">
+					{{> userbar }}
+					{{> langbar }}
+				</div>
+				<div class="col-8 m-0 p-0">
+					{{> mainbar }}
+				</div>
+			</div>
+		</div>
+		
+		<!-- Large Devices -->
+		<div class="hidden-sm-down navborder">
+			<div class="row m-0 p-0">
+				{{> mainbar }}
+				{{> langbar }}
+				{{> userbar }}
+			</div>
+		</div>
+		
+	</div>
+
+</nav>

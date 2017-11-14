@@ -1,0 +1,54 @@
+
+			<!-- this appears only in small devices < 768px -->
+			<div class="row mt-3 hidden-md-up">
+				<div class="col-12 cardlike">
+					<img class="img-fluid" src="/img/teaser2.jpg">
+					{{#if error}}
+						<h4 class="card-title">{{I18n "err.gen.TITLE"}}</h4>
+						<p class="card-text">{{ error }}</p>
+					{{^}}
+						<h4 class="card-title">{{I18n "login.TITLE"}}</h4>
+						<p class="card-text">{{I18n "login.SUB"}}</p>
+					{{/if}}	
+				</div>
+			</div>
+				
+			<div class="row mt-4">
+
+				<div class="col-md-8 offset-md-2">
+					
+					<!-- this appears only in large devices >= 768px -->
+					<div class="card sidecard hidden-sm-down">
+						<img class="card-img-top" src="/img/teaser2.jpg" alt="lips">
+						<div class="card-block">
+							{{#if error}}
+								<h4 class="card-title">{{I18n "err.gen.TITLE"}}</h4>
+								<p class="card-text">{{ error }}</p>
+							{{^}}
+								<h4 class="card-title">{{I18n "login.TITLE"}}</h4>
+								<p class="card-text">{{I18n "login.SUB"}}</p>
+							{{/if}}
+						</div>
+					</div>
+				
+					<div class="card">
+						<div class="card-block">
+							<form class="form" role="form" autocomplete="off" action="/login" method="post" enctype="application/x-www-form-urlencoded">
+								<div class="form-group">
+									<label for="username">{{I18n "login.USERNAME"}}</label>
+									<input type="text" class="form-control" name="username" id="username" required="" autocomplete="on"	>
+								</div>
+								<div class="form-group">
+									<label for="password">{{I18n "login.PASSWORD"}}</label>
+									<input type="password" class="form-control" name="password" id="password" required="" autocomplete="off">
+								</div>
+								<div class="form-group">
+									<button type="submit" class="btn form-btn float-right">{{I18n "login.LOGIN"}}</button>
+								</div>
+							</form>
+						</div>
+					</div>
+					
+				</div>
+				
+			</div>

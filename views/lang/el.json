@@ -1,0 +1,86 @@
+{
+	"site": {
+		"TITLE": "ironode",
+		"DESCR": "A nodejs website template and user system starter free to clone. Ironode is using Expressjs, Passportjs, Mongoosejs, Handlebarsjs & Bootstrap4."
+	},
+	"nav": {
+		"HOME": "αρχική",
+		"LOGIN": "είσοδος",
+		"ENTER": "enter",
+		"REGISTER": "εγγραφή",
+		"LOGOUT": "nav.LOGOUT",
+		"CONTACT": "nav.CONTACT",
+		"PROFILE": "nav.PROFILE"
+	},
+	"register": {
+		"USERNAME": "Όνομα χρήστη",
+		"EMAIL": "Ηλεκτρονική διεύθυνση (email)",
+		"PASSWORD": "Κωδικός πρόσβασης (password)",
+		"VERIFY": "Eπιβεβαίωσή κωδικού",
+		"REGISTER": "Εγγραφή",
+		"TITLE": "register.TITLE",
+		"SUB": "register.SUB",
+		"NEWPASSWORD": "register.NEWPASSWORD"
+	},
+	"err": {
+		"reg": {
+			"REQUIRED": "βάλε να πούμε",
+			"NUMCHARS": "err.reg.NUMCHARS",
+			"EVALID": "err.reg.EVALID"
+		},
+		"auth": {
+			"BADCRED": "err.auth.BADCRED",
+			"NOTEXISTS": "err.auth.NOTEXISTS"
+		},
+		"gen": {
+			"TITLE": "err.gen.TITLE"
+		}
+	},
+	"login": {
+		"REMEMBERME": "login.REMEMBERME",
+		"LOGIN": "login.LOGIN",
+		"TITLE": "login.TITLE",
+		"SUB": "login.SUB",
+		"USERNAME": "login.USERNAME",
+		"PASSWORD": "login.PASSWORD"
+	},
+	"profile": {
+		"ACCOUNT": "profile.ACCOUNT",
+		"PASSWORD": "profile.PASSWORD",
+		"PROFILE": "profile.PROFILE",
+		"ADDRESS": "profile.ADDRESS",
+		"UPDATE": "profile.UPDATE",
+		"NAME": "profile.NAME",
+		"SURNAME": "profile.SURNAME",
+		"ADDR1": "profile.ADDR1",
+		"ADDR2": "profile.ADDR2",
+		"CITY": "profile.CITY",
+		"REGION": "profile.REGION",
+		"TITLE": "profile.TITLE",
+		"SUB": "profile.SUB",
+		"crop": {
+			"UPLOAD": "profile.crop.UPLOAD",
+			"TITLE": "profile.crop.TITLE",
+			"CLOSE": "profile.crop.CLOSE"
+		},
+		"POSTCODE": "profile.POSTCODE",
+		"COUNTRY": "profile.COUNTRY"
+	},
+	"reset": {
+		"TITLE": "reset.TITLE",
+		"SUB": "reset.SUB",
+		"EMAIL": "reset.EMAIL",
+		"ACTIVATE": "reset.ACTIVATE"
+	},
+	"contact": {
+		"TITLE": "contact.TITLE",
+		"SUB": "contact.SUB",
+		"NAME": "contact.NAME",
+		"EMAIL": "contact.EMAIL",
+		"TEXT": "contact.TEXT",
+		"SEND": "contact.SEND"
+	},
+	"reg": {
+		"NEWACCOUNT": "reg.NEWACCOUNT"
+	}
+}

@@ -1,0 +1,290 @@
+
+			<!-- this block appears only in small devices < 768px -->
+			<div class="row mt-3 hidden-md-up">
+				<div class="col-12 cardlike">
+					<img class="img-fluid" src="/img/teaser.jpg">
+						{{#if error}}
+							<h4 class="card-title">{{I18n "err.gen.TITLE"}}</h4>
+							<p class="card-text">{{ error }}</p>
+						{{^}}
+							<h4 class="card-title">{{I18n "profile.TITLE"}}</h4>
+							{{#if info}}
+								<p class="card-text">{{ info }}</p>
+							{{^}}	
+								<p class="card-text">{{I18n "profile.SUB"}}</p>
+							{{/if}}
+						{{/if}}
+				</div>
+			</div>
+				
+			<div class="row mt-4">
+
+				<div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2">
+					
+					<!-- this appears only in large devices >= 768px -->
+					<div class="card sidecard hidden-sm-down">
+						<img class="card-img-top" src="/img/teaser3.jpg" alt="lips">
+						<div class="card-block">
+							{{#if error}}
+								<h4 class="card-title">{{I18n "err.gen.TITLE"}}</h4>
+								<p class="card-text">{{ error }}</p>
+							{{^}}
+								<h4 class="card-title">{{I18n "profile.TITLE"}}</h4>
+								{{#if info}}
+									<p class="card-text">{{ info }}</p>
+								{{^}}	
+									<p class="card-text">{{I18n "profile.SUB"}}</p>
+								{{/if}}
+							{{/if}}
+						</div>
+					</div>
+				
+					<!-- main form -->
+					<div class="card">
+						<div class="card-block">
+					
+							<!-- Tab Menu -->
+							<ul class="nav nav-pills flex-column flex-sm-row">
+								<li class="nav-item"><a class="flex-sm-fill nav-link {{active.account}}" data-toggle="pill"  href="#account">{{I18n "profile.ACCOUNT"}}</a></li>
+								<li class="nav-item"><a class="flex-sm-fill nav-link {{active.password}}" data-toggle="pill" href="#password">{{I18n "profile.PASSWORD"}}</a></li>
+								<li class="nav-item"><a class="flex-sm-fill nav-link {{active.profile}}" data-toggle="pill" href="#profile">{{I18n "profile.PROFILE"}}</a></li>
+								<li class="nav-item"><a class="flex-sm-fill nav-link {{active.address}}" data-toggle="pill" href="#address">{{I18n "profile.ADDRESS"}}</a></li>
+							</ul>
+
+							<!-- Tab Panes -->
+							<div class="tab-content">
+								
+								<!-- Account -->
+								<div class="tab-pane {{active.account}}" id="account" role="tabpanel">
+
+									<form class="form" role="form" autocomplete="off" action="/profile/account" method="post" enctype="application/x-www-form-urlencoded">
+										<div class="form-group">
+											<label for="inputUsername" class="mb-0">{{I18n "register.USERNAME"}}</label>
+											<label for="errorUsername" class="mb-0 errlabel"></label>
+											<input type="text" class="form-control" id="inputUsername" name="username" maxlength="15" autocomplete="on" value="{{#if xform}}{{xform.name}}{{^}}{{user.username}}{{/if}}" {{#unless change_uname}}readonly{{/unless}}>
+										</div>
+										<div class="form-group">
+											<label for="inputEmail" class="mb-0">{{I18n "register.EMAIL"}}</label>
+											<label for="errorEmail" class="mb-0 errlabel"></label>
+											<input type="email" class="form-control" id="inputEmail" name="email" maxlength="30" autocomplete="on" value="{{#if xform}}{{xform.email}}{{^}}{{user.email}}{{/if}}" {{#unless change_email}}readonly{{/unless}}>
+										</div>
+										<div class="form-group text-right">
+											<button type="submit" class="btn form-btn {{#if disabled}}disabled{{/if}}" {{#if disabled}}disabled{{/if}}>{{I18n "profile.UPDATE"}}</button>
+										</div>
+										<input type="hidden" name="id" value="{{user.id}}">
+									</form>
+									
+								</div>
+							
+								<!-- Password -->
+								<div class="tab-pane {{active.password}}" id="password" role="tabpanel">
+									<form class="form" role="form" autocomplete="off" id="password" action="/profile/password" method="post" enctype="application/x-www-form-urlencoded">
+										<div class="form-group">
+											<label for="inputPassword" class="mb-0">{{I18n "register.NEWPASSWORD"}}</label>
+											<label for="errorPassword" class="mb-0 errlabel"></label>
+											<input type="password" class="form-control" id="inputPassword" name="password" maxlength="15" autocomplete="off" value="{{xform.password}}" placeholder="">
+										</div>
+										<div class="form-group">
+											<label for="inputVerify" class="mb-0">{{I18n "register.VERIFY"}}</label>
+											<label for="errorVerify" class="mb-0 errlabel"></label>
+											<input type="password" class="form-control" id="inputVerify" name="verify" maxlength="15" autocomplete="off" value="{{xform.verify}}" placeholder="">
+										</div>
+										<div class="form-group text-right">
+											<button type="submit" class="btn form-btn">{{I18n "profile.UPDATE"}}</button>
+										</div>
+										<input type="hidden" name="id" value="{{user.id}}">
+									</form>
+								</div>
+								
+								<!-- Profile -->
+								<div class="tab-pane {{active.profile}}" id="profile" role="tabpanel">
+									<div class="container-fluid p-0">
+										<div class="row">	
+											<div class="col col-img">
+												<form class="form" role="form" id='uploadForm' action='/profile/upload' method='post' enctype="multipart/form-data">
+													<img class="img-thumbnail" src="{{user.profile.avatar}}" id="avatar">
+													<label class="upload-btn">
+														{{I18n "profile.crop.UPLOAD"}}
+														<input type="file" name="newImage" accept="image/*" onchange="form.submit()" style="display: none;" >
+													</label>
+													
+												</form> 
+											</div>
+											<div class="col">
+												<form class="form" role="form" autocomplete="off" id="profile" action="/profile/profile" method="post" enctype="application/x-www-form-urlencoded">
+													<div class="form-group">
+														<label for="inputAddr1" class="mb-0">{{I18n "profile.NAME"}}</label>
+														<input type="text" class="form-control" id="inputName" name="name" maxlength="20" autocomplete="on" value="{{#if xform}}{{xform.name}}{{^}}{{user.profile.name}}{{/if}}">
+													</div>
+													<div class="form-group">
+														<label for="inputAddr2" class="mb-0">{{I18n "profile.SURNAME"}}</label>
+														<input type="text" class="form-control" id="inputSurname" name="surname" maxlength="20" autocomplete="on" value="{{#if xform}}{{xform.surname}}{{^}}{{user.profile.surname}}{{/if}}">
+													</div>
+													<div class="form-group text-right">
+														<button type="submit" class="btn form-btn">{{I18n "profile.UPDATE"}}</button>
+													</div>
+													<input type="hidden" name="id" value="{{user.id}}">
+												</form>
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								<!-- Modal -->
+								<div class="modal fade" id="cropModal" tabindex="-1" role="dialog" aria-labelledby="cropModal" aria-hidden="true">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="cropModal">{{I18n "profile.crop.TITLE"}}</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>								  
+										<form class="form" role="form" autocomplete="off" id="cropForm" action="/profile/crop" method="post" enctype="application/x-www-form-urlencoded">									  
+										<div class="modal-body">
+											<img src="{{newimage}}" id="target">
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn form-btn-sec" data-dismiss="modal">{{I18n "profile.crop.CLOSE"}}</button>
+											<button type="submit" class="btn form-btn" onsubmit="return false;">{{I18n "profile.UPDATE"}}</button>
+											<input type="hidden" name="cropx" id="cropx" value="0">
+											<input type="hidden" name="cropy" id="cropy" value="0">
+											<input type="hidden" name="cropw" id="cropw" value="0">
+											<input type="hidden" name="croph" id="croph" value="0">
+											<input type="hidden" name="name" value="{{newimage}}">
+											<input type="hidden" name="id" value="{{user.id}}">
+										</div>
+										</form>
+									</div>
+								</div>
+								</div>
+								
+								<!-- Address -->
+								<div class="tab-pane {{active.address}}" id="address" role="tabpanel">
+									<form class="form" role="form" autocomplete="off" action="/profile/address" method="post" enctype="application/x-www-form-urlencoded" >
+										<div class="form-group">
+											<label for="inputAddr1" class="mb-0">{{I18n "profile.ADDR1"}}</label>
+											<input type="text" class="form-control" id="inputAddr1" name="line1" maxlength="40" autocomplete="on" value="{{#if xform}}{{xform.name}}{{^}}{{user.address.line1}}{{/if}}">
+										</div>
+										<div class="form-group">
+											<label for="inputAddr2" class="mb-0">{{I18n "profile.ADDR2"}}</label>
+											<input type="text" class="form-control" id="inputAddr2" name="line2" maxlength="40" autocomplete="on" value="{{#if xform}}{{xform.name}}{{^}}{{user.address.line2}}{{/if}}">
+										</div>
+										<div class="row">
+											<div class="col">
+												<div class="form-group">
+													<label for="inputCity" class="mb-0">{{I18n "profile.CITY"}}</label>
+													<input type="text" class="form-control" id="inputCity" name="city" maxlength="20" autocomplete="on" value="{{#if xform}}{{xform.name}}{{^}}{{user.address.city}}{{/if}}">
+												</div>
+												<div class="form-group">
+													<label for="inputCity" class="mb-0">{{I18n "profile.POSTCODE"}}</label>
+													<input type="text" class="form-control" id="inputPostcode" name="postcode" maxlength="20" autocomplete="on" value="{{#if xform}}{{xform.name}}{{^}}{{user.address.postcode}}{{/if}}">
+												</div>
+											</div>
+											<div class="col">
+												<div class="form-group">
+													<label for="inputCity" class="mb-0">{{I18n "profile.REGION"}}</label>
+													<input type="text" class="form-control" id="inputRegion" name="region" maxlength="20" autocomplete="on" value="{{#if xform}}{{xform.name}}{{^}}{{user.address.region}}{{/if}}">
+												</div>
+												<div class="form-group">
+													<label for="inputCity" class="mb-0">{{I18n "profile.COUNTRY"}}</label>
+													<input type="text" class="form-control" id="inputCountry" name="country" maxlength="20" autocomplete="on" value="{{#if xform}}{{xform.name}}{{^}}{{user.address.country}}{{/if}}">
+												</div>
+											</div>
+										</div>
+										<div class="form-group text-right">
+											<button type="submit" class="btn form-btn">{{I18n "profile.UPDATE"}}</button>
+										</div>
+										<input type="hidden" name="id" value="{{user.id}}">
+									</form>
+								</div>
+								
+							</div>
+
+						</div>
+					</div>
+					
+				</div>
+				
+			</div>
+			
+			<script language="javascript" src="/js/socket.io.js"></script>
+
+			
+
+  
+			<script>
+	 			
+				$(document).ready(function() {
+					
+					if ("{{newimage}}") $('#cropModal').modal('show');
+						
+					$('#target').Jcrop({
+						onChange: updateCoords,
+						onSelect: updateCoords,
+						aspectRatio: 1,
+						setSelect: [ 85, 40, 230, 230 ]
+					});
+
+					function updateCoords(c)
+					{
+						$('#cropx').val(c.x);
+						$('#cropy').val(c.y);
+						$('#cropw').val(c.w);
+						$('#croph').val(c.h);
+					};
+
+					var inpid = $('input[name=id]').val(); 
+				
+					// socket to server
+					var socket = io();					
+					
+					// events to server (on form load) preserve user input
+					var inpusername = $('input[name=username]').val();
+					if (inpusername) socket.emit('inpUsername', inpusername, inpid);
+					
+					var inpemail = $('input[name=email]').val();
+					if (inpemail) socket.emit('inpEmail', inpemail, inpid);
+					
+					var inppassword = $('input[name=password]').val();
+					if (inppassword) socket.emit('inpPassword', inppassword, inpid);
+					
+					var inpverify = $('input[name=verify]').val();
+					if (inpverify) socket.emit('inpVerify', { password: inppassword, verify: inpverify }, inpid);
+						
+					// events to server (on focusout)
+					$('input[name=username]').focusout(function() {
+						var inpusername = $('input[name=username]').val();
+						socket.emit('inpUsername', inpusername, inpid);
+					});
+					$('input[name=email]').focusout(function() {
+						var inpemail = $('input[name=email]').val();
+						socket.emit('inpEmail', inpemail, inpid);
+					});
+					$('input[name=password]').focusout(function() {
+						var inppassword = $('input[name=password]').val();
+						socket.emit('inpPassword', inppassword);
+					});
+					$('input[name=verify]').focusout(function() {
+						var inppassword = $('input[name=password]').val();
+						var inpverify = $('input[name=verify]').val();
+						socket.emit('inpVerify', { password: inppassword, verify: inpverify });
+					});
+					
+					// events from server (update info labels)
+					socket.on('infoUsername', function(msg) {
+						$('label[for=errorUsername]').text(msg.txt).css('color', msg.color);
+					});			
+					socket.on('infoEmail', function(msg) {
+						$('label[for=errorEmail]').text(msg.txt).css('color', msg.color);
+					});
+					socket.on('infoPassword', function(msg) {
+						$('label[for=errorPassword]').text(msg.txt).css('color', msg.color);
+					});						
+					socket.on('infoVerify', function(msg) {
+						$('label[for=errorVerify]').text(msg.txt).css('color', msg.color);
+					});			
+					
+				});
+				
+			</script>

@@ -1,0 +1,33 @@
+
+	<div class="row mt-4">
+
+		<div class="col-md-8 offset-md-2">
+						
+			<div class="card">
+				<div class="card-block">
+				
+					{{#if info}}
+					<div class="alert alert-success alert-dismissible fade show" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<strong>&cylcty; Reporting. </strong>{{ info }}<strong> Over... .</strong>
+					</div>
+					{{/if}}
+					
+					{{#if error}}
+					<div class="alert alert-danger alert-dismissible fade show" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<strong>&cylcty; Err. </strong>{{ error }}<strong> End of transm... .</strong>
+					</div>
+					{{/if}}
+					
+				</div>
+			</div>
+			
+		</div>
+		
+	</div>
+	

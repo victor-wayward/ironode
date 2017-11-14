@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="{{lang}}">
+
+<head>
+	
+	<meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="{{I18n "site.DESCR"}}">
+
+    <title>{{I18n "site.TITLE"}}</title>
+
+	<link rel="stylesheet" href="/ext/bootstrap.min.css"/>
+	<link rel="stylesheet" href="/ext/jquery.Jcrop.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="/css/style.css"/>
+	
+
+	<script src="/ext/jquery.min.js"></script>
+	<script src="/ext/tether.min.js"></script>
+	<script src="/ext/bootstrap.min.js"></script>
+	<script src="/ext/jquery.Jcrop.min.js"></script>
+	
+
+	
+	{{#if contact}}
+	<script src='https://www.google.com/recaptcha/api.js'></script>
+	{{/if}}
+
+</head>
+
+<body>
+	<div class="maxwidth">
+		{{> navbar }}
+		<div class="container-fluid main">
+			{{{ body }}}
+		</div> <!-- main -->
+	</div> <!-- maxwidth -->
+</body>
+
+</html>

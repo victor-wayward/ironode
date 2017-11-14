@@ -1,0 +1,123 @@
+
+			<!-- this appears only in small devices < 768px -->
+			<div class="row mt-3 hidden-md-up">
+				<div class="col-12 cardlike">
+					<img class="img-fluid" src="/img/teaser1.jpg">
+						{{#if error}}
+							<h4 class="card-title">{{I18n "res.err.TITLE"}}</h4>
+							<p class="card-text">{{error}}</p>
+						{{^}}
+							<h4 class="card-title">{{I18n "contact.TITLE"}}</h4>
+							<p class="card-text">{{I18n "contact.SUB"}}</p>
+						{{/if}}
+				</div>
+			</div>
+				
+			<div class="row mt-4">
+
+				<div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2">
+					
+					<!-- this appears only in large devices >= 768px -->
+					<div class="card sidecard hidden-sm-down">
+						<img class="card-img-top" src="/img/teaser1.jpg" alt="lips">
+						<div class="card-block">
+							{{#if error}}
+								<h4 class="card-title">{{I18n "res.err.TITLE"}}</h4>
+								<p class="card-text">{{error}}</p>
+							{{^}}
+								<h4 class="card-title">{{I18n "contact.TITLE"}}</h4>
+								<p class="card-text">{{I18n "contact.SUB"}}</p>
+							{{/if}}
+						</div>
+					</div>
+				
+					<div class="card">
+						<div class="card-block">
+							<form class="form" role="form" autocomplete="off" action="/contact" method="post" enctype="application/x-www-form-urlencoded">
+								<div class="form-group">
+									<label for="inputName" class="mb-0">{{I18n "contact.NAME"}}</label>
+									<label for="errorName" class="mb-0 errlabel"></label>
+									<input type="text" class="form-control" id="inputName" name="name" maxlength="30" autocomplete="on" value="{{#if xform}}{{xform.name}}{{^}}{{#if user}}{{user.username}}{{/if}}{{/if}}" placeholder="">
+								</div>
+								<div class="form-group">
+									<label for="inputEmail" class="mb-0">{{I18n "contact.EMAIL"}}</label>
+									<label for="errorEmail" class="mb-0 errlabel"></label>
+									<input type="email" class="form-control" id="inputEmail" name="email" maxlength="30" value="{{#if xform}}{{xform.email}}{{^}}{{#if user}}{{user.email}}{{/if}}{{/if}}" placeholder="">
+								</div>
+								<div class="form-group">
+									<label for="inputText" class="mb-0">{{I18n "contact.TEXT"}}</label>
+									<label for="errorText" class="mb-0 errlabel"></label>
+									<textarea class="form-control" id="inputText" name="text" rows="3" cols="40" maxlength="300">{{xform.text}}</textarea>
+								</div>
+								
+								<div class="container-fluid">
+								  <div class="row align-items-end">
+									<div class="col p-0 captcha align-bottom ">
+									{{#if show}}
+										<script src='https://www.google.com/recaptcha/api.js'></script>
+										<div class="g-recaptcha" data-sitekey="{{key}}"></div>
+									{{/if}}	
+									</div>
+									<div class="col m-0 p-0 form-group">
+										<button type="submit" class="btn form-btn float-right">{{I18n "contact.SEND"}}</button>
+									</div>
+								  </div>
+								</div>
+							</form>
+						</div>
+					</div>
+					
+				</div>
+				
+			</div>
+			
+			<script language="javascript" src="/js/socket.io.js"></script>
+			<script>
+			
+				$(document).ready(function() {
+					
+					// socket to server
+					var socket = io();					
+					
+					// events to server (on load) preserve user input
+					var inpname = $('input[name=name]').val();
+					if (inpname) socket.emit('inpCName', inpname);
+					
+					var inpemail = $('input[name=email]').val();
+					if (inpemail) socket.emit('inpCEmail', inpemail);
+					
+					var inptext = $('textarea[name=text]').val();
+					if (inptext) socket.emit('inpCText', inptext);
+						
+					// events to server (on focusout)
+					$('input[name=name]').focusout(function() {
+						var inpname = $('input[name=name]').val();
+						socket.emit('inpCName', inpname);
+					});
+					
+					$('input[name=email]').focusout(function() {
+						var inpemail = $('input[name=email]').val();
+						socket.emit('inpCEmail', inpemail);
+					});
+					
+					$('textarea[name=text]').focusout(function() {
+						var inptext = $('textarea[name=text]').val();
+						socket.emit('inpCText', inptext);
+					});
+					
+					// events from server (update info labels)
+					socket.on('infoCName', function(msg) {
+						$('label[for=errorName]').text(msg.txt).css('color', msg.color);
+					});
+					
+					socket.on('infoCEmail', function(msg) {
+						$('label[for=errorEmail]').text(msg.txt).css('color', msg.color);
+					});
+					
+					socket.on('infoCText', function(msg) {
+						$('label[for=errorText]').text(msg.txt).css('color', msg.color);
+					});
+					
+				});
+				
+			</script>

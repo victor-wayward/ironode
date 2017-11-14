@@ -1,0 +1,88 @@
+{
+	"site": {
+		"TITLE": "ironode",
+		"DESCR": "A nodejs website template and user system starter free to clone. Ironode is using Expressjs, Passportjs, Mongoosejs, Handlebarsjs & Bootstrap4."
+	},
+	"nav": {
+		"HOME": "home",
+		"LOGIN": "login",
+		"CONTACT": "contact",
+		"REGISTER": "register",
+		"LOGOUT": "logout"
+	},
+	"login": {
+		"USERNAME": "Username",
+		"PASSWORD": "Password",
+		"REMEMBERME": "remember me on this computer",
+		"LOGIN": "Login",
+		"TITLE": "login.TITLE",
+		"SUB": "login.SUB"
+	},
+	"register": {
+		"TITLE": "Register",
+		"SUB": "We are in danger! Save us! Nothing really special here, feel free to test the registration process.",
+		"USERNAME": "Username",
+		"EMAIL": "Email",
+		"PASSWORD": "Password",
+		"VERIFY": "Verify",
+		"REGISTER": "Register",
+		"EMAILSENT": "register.EMAILSENT"
+	},
+	"reset": {
+		"TITLE": "Reset Password",
+		"SUB": "Please enter your email address. An activation link will be sent to this address.",
+		"EMAIL": "Email",
+		"ACTIVATE": "Reset Password",
+		"EXISTS": "This email is registered",
+		"RETURN": "OK",
+		"EMAILSENT": "An activation email has been sent to your email address.",
+		"DONE": "Your new password has been set",
+		"email": {
+			"TITLE": "reset.email.TITLE",
+			"MAIN": "reset.email.MAIN"
+		}
+	},
+	"err": {
+		"gen": {
+			"TITLE": "Error!",
+			"SYSERROR": "System is not available, please try again later."
+		},
+		"reg": {
+			"REQUIRED": "required",
+			"NUMCHARS": "must be at least 6 chars long",
+			"SPECIALCHARS": "should not contain special chars",
+			"UALREADY": "username already registered",
+			"EALREADY": "email already registered",
+			"EVALID": "please enter a valid email address",
+			"PMATCH": "passwords do not match",
+			"GENERIC": "Please correct the errors."
+		},
+		"res": {
+			"REQUIRED": "required",
+			"EVALID": "please enter a valid email address",
+			"NOTEXIST": "this email is not registered",
+			"TOOMANY": "You have issued too many reset requests.",
+			"TOOSOON": "Please wait a few minutes for the activation email before issuing another password reset.",
+			"BADUSER": "The activation link is wrong or it has been expired.",
+			"BADTOKEN": "The activation link is wrong or it has been expired.",
+			"GENERIC": "Please enter a valid email address.",
+			"PASSWORD": "Please enter a valid password twice."
+		},
+		"auth": {
+			"BADCRED": "err.auth.BADCRED"
+		}
+	},
+	"password": {
+		"TITLE": "Change Password",
+		"SUB": "Just set your new password.",
+		"PASSWORD": "New Password",
+		"VERIFY": "Verify",
+		"RESET": "Set Password"
+	},
+	"contact": {
+		"EMAIL": "Email",
+		"TEXT": "Message",
+		"NAME": "Name",
+		"SEND": "Send"
+	}
+}

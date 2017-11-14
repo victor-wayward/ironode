@@ -1,0 +1,125 @@
+
+			<!-- this block appears only in small devices < 768px -->
+			<div class="row mt-3 hidden-md-up">
+				<div class="col-12 cardlike">
+					<img class="img-fluid" src="/img/teaser.jpg">
+					{{#if error}}
+						<h4 class="card-title">{{I18n "register.err.TITLE"}}</h4>
+						<p class="card-text">{{ error }}</p>
+					{{^}}
+						<h4 class="card-title">{{I18n "register.TITLE"}}</h4>
+						<p class="card-text">{{I18n "register.SUB"}}</p>
+					{{/if}}
+				</div>
+			</div>
+
+			<div class="row mt-4">
+
+				<div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2">
+					
+					<!-- this block appears only in large devices >= 768px -->
+					<div class="card sidecard hidden-sm-down">
+						<img class="card-img-top" src="/img/teaser.jpg" alt="lips">
+						<div class="card-block">
+							{{#if error}}
+								<h4 class="card-title">{{I18n "register.err.TITLE"}}</h4>
+								<p class="card-text">{{ error }}</p>
+							{{^}}
+								<h4 class="card-title">{{I18n "register.TITLE"}}</h4>
+								<p class="card-text">{{I18n "register.SUB"}}</p>
+							{{/if}}
+						</div>
+					</div>
+				
+					<!-- main form -->
+					<div class="card">
+						<div class="card-block">
+							<form class="form" role="form" autocomplete="off" action="/register" method="post" enctype="application/x-www-form-urlencoded">
+								<div class="form-group">
+									<label for="inputUsername" class="mb-0">{{I18n "register.USERNAME"}}</label>
+									<label for="errorUsername" class="mb-0 errlabel"></label>
+									<input type="text" class="form-control" id="inputUsername" name="username" maxlength="15" autocomplete="on" value="{{xform.username}}" placeholder="">
+								</div>
+								<div class="form-group">
+									<label for="inputEmail" class="mb-0">{{I18n "register.EMAIL"}}</label>
+									<label for="errorEmail" class="mb-0 errlabel"></label>
+									<input type="email" class="form-control" id="inputEmail" name="email" maxlength="30"  autocomplete="on" value="{{xform.email}}" placeholder="">
+								</div>
+								<div class="form-group">
+									<label for="inputPassword" class="mb-0">{{I18n "register.PASSWORD"}}</label>
+									<label for="errorPassword" class="mb-0 errlabel"></label>
+									<input type="password" class="form-control" id="inputPassword" name="password" maxlength="15" autocomplete="off" value="{{xform.password}}" placeholder="">
+								</div>
+								<div class="form-group">
+									<label for="inputVerify" class="mb-0">{{I18n "register.VERIFY"}}</label>
+									<label for="errorVerify" class="mb-0 errlabel"></label>
+									<input type="password" class="form-control" id="inputVerify" name="verify" maxlength="15" autocomplete="off" value="{{xform.verify}}" placeholder="">
+								</div>
+								<div class="form-group">
+									<button type="submit" class="btn form-btn float-right">{{I18n "register.REGISTER"}}</button>
+								</div>
+							</form>
+						</div>
+					</div>
+					
+				</div>
+				
+			</div>
+			
+			<script language="javascript" src="/js/socket.io.js"></script>
+			<script>
+			
+				$(document).ready(function() {
+					
+					// socket to server
+					var socket = io();					
+					
+					// events to server (on form load) preserve user input
+					var inpusername = $('input[name=username]').val();
+					if (inpusername) socket.emit('inpUsername', inpusername);
+					
+					var inpemail = $('input[name=email]').val();
+					if (inpemail) socket.emit('inpEmail', inpemail);
+					
+					var inppassword = $('input[name=password]').val();
+					if (inppassword) socket.emit('inpPassword', inppassword);
+					
+					var inpverify = $('input[name=verify]').val();
+					if (inpverify) socket.emit('inpVerify', { password: inppassword, verify: inpverify });
+						
+					// events to server (on focusout)
+					$('input[name=username]').focusout(function() {
+						var inpusername = $('input[name=username]').val();
+						socket.emit('inpUsername', inpusername);
+					});
+					$('input[name=email]').focusout(function() {
+						var inpemail = $('input[name=email]').val();
+						socket.emit('inpEmail', inpemail);
+					});
+					$('input[name=password]').focusout(function() {
+						var inppassword = $('input[name=password]').val();
+						socket.emit('inpPassword', inppassword);
+					});
+					$('input[name=verify]').focusout(function() {
+						var inppassword = $('input[name=password]').val();
+						var inpverify = $('input[name=verify]').val();
+						socket.emit('inpVerify', { password: inppassword, verify: inpverify });
+					});
+					
+					// events from server (update info labels)
+					socket.on('infoUsername', function(msg) {
+						$('label[for=errorUsername]').text(msg.txt).css('color', msg.color);
+					});			
+					socket.on('infoEmail', function(msg) {
+						$('label[for=errorEmail]').text(msg.txt).css('color', msg.color);
+					});
+					socket.on('infoPassword', function(msg) {
+						$('label[for=errorPassword]').text(msg.txt).css('color', msg.color);
+					});						
+					socket.on('infoVerify', function(msg) {
+						$('label[for=errorVerify]').text(msg.txt).css('color', msg.color);
+					});			
+					
+				});
+				
+			</script>
