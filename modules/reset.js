@@ -30,8 +30,8 @@ exports.reset = function(email, done) {
 	validate.email2reset(email, function(status, msg, user) {
 		
 		if (!status) {
-			log.error("reset: validation faults (hostile posting)");
-			return done(null, reg, i18n.__("reset.err.GENERIC"));
+			log.error("reset: validation faults");
+			return done(null, email, i18n.__("reset.err.GENERIC"));
 		}
 
 		user.resetUser (function (err) {
@@ -67,28 +67,28 @@ exports.password = function(reg, done) {
 		if (!status) faults++;
 	});
 	
-	if (reg.password + reg.verify === '') return done(null, i18n.__("err.res.PASSWORD"));
+	if (reg.password + reg.verify === '') return done(null, i18n.__("reset.err.PASSWORD"));
 	
 
-	if (faults) return done(null, i18n.__("err.res.PASSWORD"));
+	if (faults) return done(null, i18n.__("reset.err.PASSWORD"));
 	else {
 		User.findUser(reg.username, function(err, user) {
 			if (err) {
 				log.error("password: User does not exist: " + reg.username);
-				return done(null, i18n.__("err.reg.GENERIC"));
+				return done(null, i18n.__("reset.err.GENERIC"));
 			}
 			else {
 				bcrypt.hash(reg.password, hash_rounds, function(err, hash) {
 			
 					if (err) {
 						log.error("reset: bcrypt error");
-						return done(null, reg, i18n.__("err.reg.GENERIC"));
+						return done(null, reg, i18n.__("reset.err.GENERIC"));
 					}
 					else {
 						user.setPassword (hash, function (err) {
 							if (err) {
 								log.error("setPassword: Failed for " + reg.username);
-								return done(null, i18n.__("err.reg.GENERIC"));
+								return done(null, i18n.__("reset.err.GENERIC"));
 							} 
 							else {
 								log.info("setPassword: for " + reg.username);

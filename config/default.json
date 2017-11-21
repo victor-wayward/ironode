@@ -3,24 +3,29 @@
 
 {
 	"site": {
-		"name": "ironode.com",
-		"url": "http://ironode.com",
-		"email": "victor.wayward@gmail.com",
+		"name": "---",
+		"url": "http://localhost:3000",
+		"email": "support@---.com",
 		"lang-default": "en",
-		"cookie-secret": "1wantAcookie"
+		"cookie-secret": "1wantAcookie",
+		"captcha": {
+			"google-key": "---",
+			"google-secret": "---"
+		}
     },
 	
 	"server": {
 		"port": 3000,
-		"db-uri": "mongodb://farasi:prasino@localhost/farasi",
+		"db-uri": "mongodb://---:---@localhost/---",
 		"timezone": "Europe/Athens"
 	},
 
 	"register": {
 		"confirm-email": "true",
+		"captcha": "true",
 		"hash-rounds": 8,
-		"can_change_email": "true",
-		"can_change_username": "false"
+		"can-change-email": "true",
+		"can-change-username": "false"
 	},
 
 	"contact": {
@@ -28,18 +33,16 @@
 		"send2mail": "true",
 		"captcha": {
 			"users": "false",
-			"guests": "true",
-			"google-key": "6LfneCgUAAAAANVGTdMFlSFmosv5_4bBuV_Ksw4f",
-			"google-secret": "6LfneCgUAAAAALMUz6mK6O8UFigwS4NhPqx-I_bZ"
-		},
+			"guests": "true"
+		}
 	},
 
 	"email": {
-		"sendpulse-id": "640113bb3c09220ee0a8e7f9ab6487be",
-		"sendpulse-secret": "7e2e745dceed743b4655cb13208fb62a",
+		"sendpulse-id": "---",
+		"sendpulse-secret": "---",
 		"from": {
-			"name": "farasi.gr",
-			"email" : "support@farasi.gr"
+			"name": "---",
+			"email" : "support@---.com"
 		}   
 	}
 }

@@ -2,9 +2,9 @@
 			<!-- this appears only in small devices < 768px -->
 			<div class="row mt-3 hidden-md-up">
 				<div class="col-12 cardlike">
-					<img class="img-fluid" src="/img/teaser2.jpg">
+					<img class="img-fluid" src="/img/teaser4.jpg" alt="teaser">
 					{{#if error}}
-						<h4 class="card-title">{{I18n "err.gen.TITLE"}}</h4>
+						<h4 class="card-title">{{I18n "login.err.TITLE"}}</h4>
 						<p class="card-text">{{ error }}</p>
 					{{^}}
 						<h4 class="card-title">{{I18n "login.TITLE"}}</h4>
@@ -19,10 +19,10 @@
 					
 					<!-- this appears only in large devices >= 768px -->
 					<div class="card sidecard hidden-sm-down">
-						<img class="card-img-top" src="/img/teaser2.jpg" alt="lips">
+						<img class="card-img-top" src="/img/teaser4.jpg" alt="teaser">
 						<div class="card-block">
 							{{#if error}}
-								<h4 class="card-title">{{I18n "err.gen.TITLE"}}</h4>
+								<h4 class="card-title">{{I18n "login.err.TITLE"}}</h4>
 								<p class="card-text">{{ error }}</p>
 							{{^}}
 								<h4 class="card-title">{{I18n "login.TITLE"}}</h4>
@@ -41,6 +41,9 @@
 								<div class="form-group">
 									<label for="password">{{I18n "login.PASSWORD"}}</label>
 									<input type="password" class="form-control" name="password" id="password" required="" autocomplete="off">
+								</div>
+								<div class="form-group">
+									<a class="small" href="/reset">{{I18n "login.FORGOT"}}</a>
 								</div>
 								<div class="form-group">
 									<button type="submit" class="btn form-btn float-right">{{I18n "login.LOGIN"}}</button>

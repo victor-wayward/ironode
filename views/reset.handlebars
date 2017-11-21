@@ -2,7 +2,30 @@
 			<!-- this appears only in small devices < 768px -->
 			<div class="row mt-3 hidden-md-up">
 				<div class="col-12 cardlike">
-					<img class="img-fluid" src="/img/teaser1.jpg">
+					<img class="img-fluid" src="/img/teaser2.jpg" alt="teaser">
+					{{#if defmsg}}
+						<h4 class="card-title">{{I18n "reset.TITLE"}}</h4>
+						<p class="card-text">{{I18n "reset.SUB"}}</p>
+					{{/if}}	
+					{{#if info}}
+						<h4 class="card-title">{{I18n "reset.TITLE"}}</h4>
+						<p class="card-text">{{ info }}</p>
+					{{/if}}
+					{{#if error}}
+						<h4 class="card-title">{{I18n "reset.err.TITLE"}}</h4>
+						<p class="card-text">{{ error }}</p>
+					{{/if}}
+				</div>
+			</div>
+				
+			<div class="row mt-4">
+
+				<div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2">
+			
+					<!-- this appears only in large devices >= 768px -->
+					<div class="card sidecard hidden-sm-down">
+						<img class="card-img-top" src="/img/teaser2.jpg" alt="teaser">
+						<div class="card-block">
 						{{#if defmsg}}
 							<h4 class="card-title">{{I18n "reset.TITLE"}}</h4>
 							<p class="card-text">{{I18n "reset.SUB"}}</p>
@@ -15,29 +38,6 @@
 							<h4 class="card-title">{{I18n "reset.err.TITLE"}}</h4>
 							<p class="card-text">{{ error }}</p>
 						{{/if}}
-				</div>
-			</div>
-				
-			<div class="row mt-4">
-
-				<div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2">
-			
-					<!-- this appears only in large devices >= 768px -->
-					<div class="card sidecard hidden-sm-down">
-						<img class="card-img-top" src="/img/teaser1.jpg" alt="lips">
-						<div class="card-block">
-							{{#if defmsg}}
-								<h4 class="card-title">{{I18n "reset.TITLE"}}</h4>
-								<p class="card-text">{{I18n "reset.SUB"}}</p>
-							{{/if}}	
-							{{#if info}}
-								<h4 class="card-title">{{I18n "reset.TITLE"}}</h4>
-								<p class="card-text">{{ info }}</p>
-							{{/if}}
-							{{#if error}}
-								<h4 class="card-title">{{I18n "reset.err.TITLE"}}</h4>
-								<p class="card-text">{{ error }}</p>
-							{{/if}}
 						</div>
 					</div>
 				

@@ -137,7 +137,7 @@ userSchema.methods.resetUser = function(done) {
 	if (moment().diff(moment(this.reset.createdOn), 'seconds') < this.reset.counter * 60) return done('toosoon');
 	
 	const seed = crypto.randomBytes(20);
-	authToken = crypto.createHash('sha256').update(seed + this.email).digest('hex');  
+	const authToken = crypto.createHash('sha256').update(seed + this.email).digest('hex');  
 		
 	this.reset.authToken = 'p' + authToken;
 	this.reset.createdOn = Date.now();
@@ -202,12 +202,12 @@ userSchema.methods.setPassword = function(password, done) {
 	return done(null);
 }
 
-// set user email
+// set user email (directly if email is passed or from newemail)
 // calls done with error string or null
-userSchema.methods.setEmail = function(done) {
-
+userSchema.methods.setEmail = function(email, done) {
+	
 	this.old_emails.unshift(this.email);
-	this.email = this.newemail.email;
+	this.email = (email) ? email : this.newemail.email;
 	this.newemail.email = null;
 	this.newemail.authToken = null;	
 	this.save(function (err) {
@@ -217,7 +217,7 @@ userSchema.methods.setEmail = function(done) {
 	return done(null);
 }
 
-// set user email
+// set user username and email (newemail for now)
 // calls done with error string or null
 userSchema.methods.setAccount = function(account, done) {
 
@@ -226,13 +226,12 @@ userSchema.methods.setAccount = function(account, done) {
 		this.old_usernames.unshift(this.username);
 		this.username = account.username;
 	}
-	
+
 	if (this.email != account.email)
 	{	
 		const seed = crypto.randomBytes(20);
-		authToken = crypto.createHash('sha256').update(seed + this.email).digest('hex');  
-			
-		this.newemail.authToken = 'e' + authToken; // e to indicate token for email change
+		const authToken = crypto.createHash('sha256').update(seed + this.email).digest('hex');  
+		this.newemail.authToken = 'e' + authToken; 
 		this.newemail.createdOn = Date.now();
 		this.newemail.counter += 1;
 		this.newemail.email = account.email;
@@ -245,13 +244,12 @@ userSchema.methods.setAccount = function(account, done) {
 	return done(null);
 }
 
-
-
+// set user name
+// calls done with error string or null
 userSchema.methods.setProfile = function(profile, done) {
 
 	this.profile.name = profile.name;
 	this.profile.surname = profile.surname;
-
 	this.save(function (err) {
 		if (err) return done('save: ' + err);
 	});
@@ -259,6 +257,8 @@ userSchema.methods.setProfile = function(profile, done) {
 	return done(null);
 }
 
+// set user address
+// calls done with error string or null
 userSchema.methods.setAddress = function(address, done) {
 
 	this.address.line1 = address.line1,
@@ -267,7 +267,6 @@ userSchema.methods.setAddress = function(address, done) {
 	this.address.region = address.region,
 	this.address.country = address.country,
 	this.address.postcode = address.postcode,
-	
 	this.save(function (err) {
 		if (err) return done('save: ' + err);
 	});
@@ -275,11 +274,12 @@ userSchema.methods.setAddress = function(address, done) {
 	return done(null);
 }
 
+// set user avatar
+// calls done with error string or null
 userSchema.methods.setAvatar = function(avatar, done) {
 
 	this.profile.avatar = avatar;
 	this.profile.avatarChecked = false;
-	
 	this.save(function (err) {
 		if (err) return done('save: ' + err);
 	});
@@ -288,77 +288,7 @@ userSchema.methods.setAvatar = function(avatar, done) {
 }
 
 
-
-
 // User model (class name, schema, db collection) 
 var User = db.model('User', userSchema, 'users');
-
 module.exports = User;
 
-
-
-
-
-
-
-
-
-
-
-
-/*
-userSchema.statics.findUser = function(who, done) {
-	
-	var query;
-	
-	console.log(who);
-	
-	who.includes('@') ? 
-		query = this.where({ 'email': who }) :
-		query = this.where({ 'username': who });
-
-	console.log(query);
-	
-	query.findOne(function (err, user) {
-		if (err) return done('findUser: ' + err);
-		if (!user) return done(null, null);
-		else return done(null, user);
-	});
-}
-
-	User.findOne({ 'username': who }, '', function (err, user) {
-		if (err) return done('findUser: ' + err);
-		if (!user) return done(null, null);
-		return done(null, user);
-	});
-*/
-
-// middleware (pre hook plugin) for hashing password before save
-/*
-userSchema.pre('save', function(next) {
-
-	const secret = config.get('reg.secret');
-	this.password = crypto.createHash('sha256').update(secret + this.password).digest('hex'); 
-
-	next();
-});
-
-
-
-*/
-
-/*userSchema.statics.loginUser = function(email, done) {
-	
-	User.findOneAndUpdate(
-		{ 'email': email }, 
-		{ 
-			$set: { 'login.last': Date.now() }, 
-			$inc: { 'login.counter': 1 }  
-		},
-		function (err, res) {
-			if (err) return done('loginUser: ' + err); 
-			if (!res) return done('loginUser: ' + email + ' not found');
-			else return done(null);
-		}
-	);	
-}*/

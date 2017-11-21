@@ -1,6 +1,5 @@
 
 /* --- fonts --- */
-
 @font-face {
 	font-family: Roboto;
 	src: url("../fonts/Roboto.ttf");
@@ -31,7 +30,7 @@ body {
 .maxwidth {
     max-width: 1440px;
     margin: 0 auto;
-    background: #fff url("../img/back2.jpg") no-repeat top left;
+    background: #fff url("../img/back.jpg") no-repeat top left;
 }
 .main {
     height: 600px;
@@ -93,6 +92,14 @@ ul.navbar-nav {
 .navbar-nav>img {
     border-style: none;
 }
+.navbar-toggler {
+	margin-top: 10px !important;
+    background: #f6f6f6;
+}
+.navbar-toggler:focus,.navbar-toggler:active {
+   outline: none !important;
+   box-shadow: none;
+}
 
 /* --- language bar --- */
 
@@ -130,10 +137,6 @@ ul.lang-nav {
     color: #fff !important;
     background-color: #ded !important;
 }
-.navbar-toggler {
-    background: #fff;
-    margin-right: 8px;
-}
 .margin-top {
     margin-top: 20px;
 }
@@ -141,7 +144,7 @@ ul.lang-nav {
 /* --- user bar --- */
 
 ul.user-nav {
-    margin: 0;
+    margin: 1px;
     padding: 0px 0px 0px 20px;
     font-family: Overpass, Roboto, sans-serif;
     font-size: 14px;
@@ -171,12 +174,16 @@ ul.user-nav {
     text-decoration: underline;
 }
 .noshout {
-    background: #e1e1e1;
-    padding: 3px 6px 3px 6px;
-    color: #000 !important;
+	font-family: Electrolize, Roboto, sans-serif;
+    font-size: 14px;
+	padding: 3px 6px 3px 6px;
+	color: #000 !important;
+	background: #e1e1e1;
 }
 .shout {
-    background: #f10;
+    font-family: Electrolize, Roboto, sans-serif;
+    font-size: 14px;
+	background: #f10;
     color: #fff !important;
     padding: 3px 6px 3px 6px;
 }
@@ -185,6 +192,7 @@ ul.user-nav {
 
 .card-title {
     font-family: Overpass, Roboto;
+	font-size: 20px;
 }
 .card {
     font-family: Roboto;
@@ -203,7 +211,7 @@ ul.user-nav {
     font-size: 14px;
 }
 .cardlike {
-    font-family: Overpass, Roboto;
+    font-family: Roboto, Overpass;
     font-size: 14px;
     background: #ddd;
     padding: 5px;
@@ -266,35 +274,6 @@ textarea.form-control:focus {
     box-shadow: none;
 }
 
-/* --- alert --- */
-
-.alert {
-    font-family: Electrolize, Overpass, Roboto;
-    font-size: 16px;
-    padding: .5rem .75rem .5rem 2rem;
-}
-
-/* --- captcha --- */
-
-.captcha {
-    width: 0px;
-    max-width: 0px;
-}
-@media (max-width: 800px) {
-    .captcha {
-        -webkit-transform: scale(0.90);
-        -moz-transform: scale(0.90);
-        -ms-transform: scale(0.90);
-        -o-transform: scale(0.90);
-        transform: scale(0.90);
-        -webkit-transform-origin: left bottom;
-        -moz-transform-origin: left bottom;
-        -ms-transform-origin: left bottom;
-        -o-transform-origin: left bottom;
-        transform-origin: left bottom;
-    }
-}
-
 /* --- user menu & dropdown menu on avatar --- */
 
 .btn-group img {
@@ -310,21 +289,11 @@ textarea.form-control:focus {
 }
 .dropdown-menu {
     border-radius: 0;
-    margin: 0px;
+    margin-top: 1px;
     padding: 4px 8px;
     background: #e1e1e1;
     border: 1px solid #e1e1e1;
-    width: 66px;
-    min-width: 0px;
-}
-.dropdown-header {
-    color: #222;
-    background: #ccc;
-    font-size: 14px;
-    font-weight: 700;
-    padding: 0px;
-    margin: 0px;
-    width: 66px;
+    width: 90px;
     min-width: 0px;
 }
 .userbtn {
@@ -333,8 +302,7 @@ textarea.form-control:focus {
     padding: 0px;
 }
 ul.menu-nav {
-    color: #222 !important;
-    font-family: Overpass, Roboto, sans-serif;
+    font-family: Electrolize, Roboto, sans-serif;
     font-size: 14px;
     list-style: none;
     text-decoration: none;
@@ -356,8 +324,14 @@ ul.menu-nav {
     transition: all 0.2s ease-in-out;
 }
 .menu-nav>li>a:hover,
-.user-nav>li>a:focus {
-    text-decoration: underline;
+.menu-nav>li>a:focus {
+    color: #111;
+	text-decoration: underline;
+}
+img.topavatar {
+	margin-left: 2px;
+	border: 1px solid #f6f6f6;
+	height: 58px;
 }
 
 /* --- profile tab --- */
@@ -393,6 +367,44 @@ ul.menu-nav {
     max-width: 220px;
 }
 
+/* --- alert --- */
+
+.alert {
+    font-family: Electrolize, Overpass, Roboto;
+    font-size: 16px;
+    padding: .5rem .75rem .5rem 2rem;
+}
+
+/* --- captcha --- */
+
+.captcha {
+    width: 0px;
+    max-width: 0px;
+}
+@media (max-width: 800px) {
+    .captcha {
+        -webkit-transform: scale(0.90);
+        -moz-transform: scale(0.90);
+        -ms-transform: scale(0.90);
+        -o-transform: scale(0.90);
+        transform: scale(0.90);
+        -webkit-transform-origin: left bottom;
+        -moz-transform-origin: left bottom;
+        -ms-transform-origin: left bottom;
+        -o-transform-origin: left bottom;
+        transform-origin: left bottom;
+    }
+}
+@media (max-width: 450px) {
+    .captcha {
+        -webkit-transform: scale(0.80);
+        -moz-transform: scale(0.80);
+        -ms-transform: scale(0.80);
+        -o-transform: scale(0.80);
+        transform: scale(0.80);
+    }
+}
+
 /* --- specific to small devices --- */
 
 @media (max-width: 767px) {
@@ -413,18 +425,28 @@ ul.menu-nav {
         text-align: center !important;
     }
     ul.lang-nav {
-        margin: 10px 20px 0px 20px;
+        margin: 10px 30px 0px 30px;
     }
-    p.shout {
+	.lang-nav>li>a {
+        color: #111 !important;
+    }
+    a.shout {
         margin: 0px 10px !important;
-        border-radius: 5px;
+        border-radius: .1rem !important;
     }
     .noshout {
-        margin: 4px 20px !important;
+        margin: 1px 20px !important;
         display: block;
-        margin: 4px;
+		background: rgba(255, 255, 255, 0.6);
+		border: 1px solid #fff !important;
+		border-radius: .2rem !important;
     }
     .nav-link {
         margin-bottom: 2px;
     }
+	img.topavatar {
+		margin: 0px;
+		border: 6px solid rgba(255, 255, 255, 0.6);
+		height: 100px;
+	}
 }

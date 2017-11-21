@@ -6,18 +6,26 @@
 	"nav": {
 		"HOME": "home",
 		"LOGIN": "login",
-		"CONTACT": "contact",
-		"REGISTER": "register",
 		"LOGOUT": "logout",
+		"REGISTER": "register",
+		"CONTACT": "contact",
 		"PROFILE": "profile",
-		"profile": "nav.profile"
+		"profile": "My Profile",
+		"logout": "Logout ..."
 	},
 	"login": {
+		"TITLE": "Login",
+		"SUB": "Welcome aboard!",
 		"USERNAME": "Username",
 		"PASSWORD": "Password",
+		"FORGOT": "I forgot my username/password",
 		"LOGIN": "Login",
-		"TITLE": "Login",
-		"SUB": "Welcome aboard!"
+		"err": {
+			"TITLE": "Error",
+			"NOTEXISTS": "Bad credentials",
+			"BADCRED": "Bad credentials",
+			"DISABLED": "Account is disabled"
+		}
 	},
 	"register": {
 		"TITLE": "Register",
@@ -27,29 +35,12 @@
 		"PASSWORD": "Password",
 		"VERIFY": "Verify",
 		"REGISTER": "Register",
-		"EMAILSENT": "register.EMAILSENT",
-		"NEWPASSWORD": "New Password"
-	},
-	"reset": {
-		"TITLE": "Reset Password",
-		"SUB": "Please enter your email address. An activation link will be sent to this address.",
-		"EMAIL": "Email",
-		"ACTIVATE": "Reset Password",
-		"EXISTS": "This email is registered",
-		"RETURN": "OK",
-		"EMAILSENT": "An activation email has been sent to your email address: ",
-		"DONE": "Your new password has been set.",
-		"email": {
-			"TITLE": "reset.email.TITLE",
-			"MAIN": "reset.email.MAIN"
-		}
-	},
-	"err": {
-		"gen": {
-			"TITLE": "Error!",
-			"SYSERROR": "System is not available, please try again later."
-		},
-		"reg": {
+		"NEWACCOUNT": "Your account has been created!",
+		"NEWACCOUNTVERIFY": "An activation email has been sent to your address.",
+		"NEWPASSWORD": "New password",
+		"ACTIVATED": "Your account has been activated!",
+		"err": {
+			"TITLE": "Error",
 			"REQUIRED": "required",
 			"NUMCHARS": "must be at least 6 chars long",
 			"SPECIALCHARS": "should not contain special chars",
@@ -58,38 +49,30 @@
 			"EVALID": "please enter a valid email address",
 			"PMATCH": "passwords do not match",
 			"GENERIC": "Please correct the errors.",
-			"BLANK": "err.reg.BLANK"
-		},
-		"res": {
-			"REQUIRED": "required",
+			"UROBOT": "Do you belong to the human race?",
+			"NOEMAIL": "Activation email cannot be sent, please contact us.",
+			"BLANK": "Please fill in the form.",
+			"SYSERROR": "Something awful happened."
+		}
+	},
+	"reset": {
+		"TITLE": "Password Reset",
+		"SUB": "Please enter your email address. An activation link will be sent to this address.",
+		"EMAIL": "Email",
+		"ACTIVATE": "Reset Password",
+		"EXISTS": "yeap, got it",
+		"EMAILSENT": "An activation email has been sent to your email address: ",
+		"err": {
+			"TITLE": "Error",
 			"EVALID": "please enter a valid email address",
+			"REQUIRED": "required",
 			"NOTEXIST": "this email is not registered",
 			"TOOMANY": "You have issued too many reset requests.",
-			"TOOSOON": "Please wait a few minutes for the activation email before issuing another password reset.",
+			"TOOSOON": "Please wait a few minutes for the activation email before issuing another request.",
 			"BADUSER": "The activation link is wrong or it has been expired.",
 			"BADTOKEN": "The activation link is wrong or it has been expired.",
-			"GENERIC": "Please enter a valid email address ..generic.",
-			"PASSWORD": "Please enter a valid password twice."
-		},
-		"auth": {
-			"BADCRED": "err.auth.BADCRED",
-			"NOTEXISTS": "err.auth.NOTEXISTS",
-			"DISABLED": "err.auth.DISABLED"
-		},
-		"contact": {
-			"ROBOT": "Do you belong to the human race dear??",
-			"UROBOT": "Sorry, this form is restricted to humans.",
-			"BLANK": "Emptyness is filling me.",
-			"GENERIC": "Please fill in the form."
-		},
-		"profile": {
-			"noid": "err.profile.noid",
-			"ACCOUNT": "err.profile.ACCOUNT",
-			"PASSWORD": "err.profile.PASSWORD"
-		},
-		"avatar": {
-			"GENERIC": "err.avatar.GENERIC",
-			"GENERIC2": "err.avatar.GENERIC2"
+			"GENERIC": "Please enter a valid email address.",
+			"SYSERROR": "Something awful happened."
 		}
 	},
 	"password": {
@@ -97,33 +80,21 @@
 		"SUB": "Just set your new password.",
 		"PASSWORD": "New Password",
 		"VERIFY": "Verify",
-		"RESET": "Set Password"
-	},
-	"contact": {
-		"EMAIL": "Email",
-		"TEXT": "Message",
-		"NAME": "Name",
-		"SEND": "Send",
-		"SUCCESS": "Your message has already been transmitted.",
-		"TITLE": "Contact Us",
-		"SUB": "Communication channels have been restored! Happy to hear from you.",
+		"RESET": "Set Password",
 		"err": {
-			"REQUIRED": "contact.err.REQUIRED",
-			"ROBOT": "contact.err.ROBOT",
-			"GENERIC": "contact.err.GENERIC",
-			"SYSERROR": "contact.err.SYSERROR",
-			"EVALID": "contact.err.EVALID",
-			"NOHTTPS": "contact.err.NOHTTPS",
-			"BLANK": "contact.err.BLANK"
+			"TITLE": "Error"
 		}
 	},
-	"user": {
-		"username": "user.username"
-	},
 	"profile": {
+		"TITLE": "Profile",
+		"SUB": "Feel free to update your details. Thank you.",
 		"UPDATE": "Update",
 		"ACCOUNT": "account",
+		"USERNAME": "Username",
+		"EMAIL": "Email",
 		"PASSWORD": "password",
+		"NEWPASSWORD": "New password",
+		"VERIFY": "Verify",
 		"PROFILE": "profile",
 		"ADDR1": "Address Line 1",
 		"ADDR2": "Address Line 2",
@@ -132,37 +103,54 @@
 		"NAME": "Name",
 		"SURNAME": "Surname",
 		"UPDATED": "Your profile has been updated!",
-		"TITLE": "Profile",
-		"SUB": "Feel free to update your details. Thank you.",
-		"DONE": "profile.DONE",
+		"DONE": "Your password has been updated.",
 		"ADDRESS": "address",
 		"POSTCODE": "Postcode",
 		"COUNTRY": "Country",
-		"EMAILSENT": "profile.EMAILSENT",
+		"EMAILSENT": "A confirmation email has been sent to your new email address",
 		"UPLOAD": "upload picture",
 		"crop": {
 			"UPLOAD": "upload profile picture",
 			"TITLE": "Crop profile picture",
 			"CLOSE": "Close"
-		}
-	},
-	"reg": {
-		"NEWACCOUNTVERIFY": "reg.NEWACCOUNTVERIFY",
-		"NEWACCOUNT": "reg.NEWACCOUNT",
-		"ACTIVATED": "reg.ACTIVATED",
-		"err": {
-			"GENERIC": "reg.err.GENERIC"
-		}
-	},
-	"res": {
-		"err": {
-			"EVALID": "res.err.EVALID",
-			"NOTEXIST": "res.err.NOTEXIST",
-			"TITLE": "res.err.TITLE"
 		},
-		"EMAILSENT": "res.EMAILSENT"
+		"err": {
+			"TITLE": "Error",
+			"ACCOUNT": "Please correct the errors.",
+			"GENERIC": "Please correct the errors.",
+			"PASSWORD": "Something awful happened.",
+			"NOFORM": "Something awful happened.",
+			"AVATAR": "Please upload an image file up to 1MB.",
+			"SYSERROR": "Something awful happened."
+		}
+	},
+	"token": {
+		"err": {
+			"TITLE": "Error",
+			"GENERIC": "Please correct the errors.",
+			"BADUSER": "Invalid or expired token",
+			"BADTOKEN": "Invalid or expired token"
+		}
+	},
+	"contact": {
+		"TITLE": "Contact Us",
+		"SUB": "Communication channels have been restored! Happy to hear from you.",
+		"EMAIL": "Email",
+		"TEXT": "Message",
+		"NAME": "Name",
+		"SEND": "Send",
+		"SUCCESS": "Your message has been transmitted.",
+		"err": {
+			"TITLE": "Error",
+			"EVALID": "please enter a valid email address",
+			"REQUIRED": "required",
+			"UROBOT": "Strictly for humans",
+			"GENERIC": "Please correct the errors.",
+			"SYSERROR": "Something awful happened.",
+			"BLANK": "Please fill in the form."
+		}
 	},
 	"general": {
-		"MSG404": "general.MSG404"
+		"MSG404": "404 - I was quietly browsing my logs until you came along."
 	}
 }

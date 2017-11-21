@@ -17,12 +17,13 @@ const profile = require('profile');					// profile module (app/modules/profile)
 const token = require('token');						// token module (app/modules/token)
 
 const config = require('config');
+const captcha_reg = (config.get('register.captcha') == 'true');
 const captcha_users = (config.get('contact.captcha.users') == 'true');
 const captcha_guests = (config.get('contact.captcha.guests') == 'true');
-const captcha_key = config.get('contact.captcha.google-key');
+const captcha_key = config.get('site.captcha.google-key');
 
-const ccemail = (config.get('register.can_change_email') == 'true');
-const ccuname = (config.get('register.can_change_username') == 'true');
+const ccemail = (config.get('register.can-change-email') == 'true');
+const ccuname = (config.get('register.can-change-username') == 'true');
 const disabled = ((ccemail || ccuname) == 'false') ? true : false;
 
 const fileUpload = require('express-fileupload');	// used for avatar
@@ -65,12 +66,14 @@ router.get('/', function(req, res) {
 
 router.get('/register', function(req, res) {
 	res.render('register', { 
-		error: req.flash('error') 
+		show: captcha_reg,												// indicate if captcha should be displayed
+		key: captcha_key,												// google key
+		error: req.flash('error')
 	});
 });
 
 router.post('/register', function(req, res) {	
-	register.register(req.body, function(user, xform, msg) {
+	register.register(req.body, captcha_reg, function(user, xform, msg) {
 		if (user) {														// successfull registration
 			if (user.login.enabled) {									// auto login after registration	
 				req.login(user, function (err) {						// passport login without authentication
@@ -81,8 +84,11 @@ router.post('/register', function(req, res) {
 			res.redirect('/');
 		}
 		else {															// registration fails
+			delete req.body["g-recaptcha-response"];					// a new response is needed
 			req.flash('error', msg);									// flash error message
 			res.render('register', {
+				show: captcha_reg,										// indicate if captcha should be displayed
+				key: captcha_key,										// google key
 				xform: req.body, 										// pass back form data
 				error: req.flash('error') 								// flash error
 			}); 				
@@ -173,33 +179,34 @@ router.get('/token/:user/:token', function(req, res) {
 			req.flash('error', err);
 			res.redirect('/');
 		}
-		
-		switch(req.params.token.charAt(0)) {	
-		case 'r':														// registration
-			register.activate(user, function(result, msg) {  			// login user explicitly
-				if (result) {
-					req.flash('info', msg);
-					req.login(user, function (err) {					// passport login - no authentication
-						if (err) log.error('req.login: ' + err);		// serializer error?
-					});
-				}
-				else req.flash('error', msg);	
-				res.redirect('/');
-			});
-		break;	
-		case 'p':														// forgot password
-			res.render('password', { 
-				who: req.params.user,
-				token: req.params.token 
-			});
-		break;
-		case 'e':														// change email address
-			profile.setEmail(user, function(result, msg) {
-				if (result) req.flash('info', msg);
-				else req.flash('error', msg);	
-				res.redirect('/');
-			});
-		break;
+		else {
+			switch(req.params.token.charAt(0)) {	
+			case 'r':														// registration
+				register.activate(user, function(result, msg) {  			// login user explicitly
+					if (result) {
+						req.flash('info', msg);
+						req.login(user, function (err) {					// passport login - no authentication
+							if (err) log.error('req.login: ' + err);		// serializer error?
+						});
+					}
+					else req.flash('error', msg);	
+					res.redirect('/');
+				});
+			break;	
+			case 'p':														// forgot password
+				res.render('password', { 
+					who: req.params.user,
+					token: req.params.token 
+				});
+			break;
+			case 'e':														// change email address
+				profile.setEmail(user, function(result, msg) {
+					if (result) req.flash('info', msg);
+					else req.flash('error', msg);	
+					res.redirect('/');
+				});
+			break;
+			}
 		}
 	});	
 });
@@ -236,18 +243,6 @@ router.post('/token/:user/:token', function(req, res) {					// used for password
 
 // --- Profile ---
 
-router.get('/profile', function(req, res) {	
-	if (req.user) {
-		res.render('profile', { 
-			ccuname: ccuname, 
-			ccemail: ccemail, 
-			disabled: disabled, 
-			active: { 'account' : 'active' }
-		});
-	}
-	else res.status(400).render('404');
-});
-
 router.post('/profile/upload', function(req, res) {
 	
 	if (!req.user) res.status(400).render('404');
@@ -266,11 +261,14 @@ router.post('/profile/upload', function(req, res) {
 
 router.post('/profile/crop', function(req, res) {
 
-	if (!req.user) res.redirect('/'); //404?? log unauthorized
+	if (!req.user) res.status(400).render('404');
 
 	profile.crop(req.user, req.body, function (err) {
 		if (err) req.flash('error', err);
 		res.render('profile', { 
+			ccuname: ccuname, 											// can change username
+			ccemail: ccemail, 											// can change email
+			disabled: disabled, 
 			active: { 'profile' : 'active' },
 			avatar: req.user.profile.avatar,
 			error: req.flash('error')
@@ -278,24 +276,43 @@ router.post('/profile/crop', function(req, res) {
 	});
 });
 
-router.post('/profile/:form', function(req, res) {	
+router.get('/profile', function(req, res) {	
+	if (req.user) {
+		res.render('profile', { 
+			ccuname: ccuname, 											// can change username
+			ccemail: ccemail, 											// can change email
+			disabled: disabled, 										// update button on account tab
+			active: { 'account' : 'active' }							// indicates active tab
+		});
+	}
+	else res.status(400).render('404');
+});
+
+router.post('/profile/:form', function(req, res) {
 	if (req.user) {
 		profile.update(req.user, req.body, req.params.form, function(result, xform, msg) {
 			if (result) req.flash('info', msg);
 			else req.flash('error', msg);
 
 			res.render('profile', { 
-				change_email: change_email, 
-				change_uname: change_uname, 
-				disabled: disabled, 
+				ccuname: ccuname, 										// can change username
+				ccemail: ccemail, 										// can change email
+				disabled: disabled, 									// update button on account tab
 				info: req.flash('info'), 
-				error: req.flash('error'),
-				active: { [req.params.form] : 'active' }
+				error: req.flash('error'),								// update button on account tab
+				active: { [req.params.form] : 'active' }				// indicates active tab
 			});				
 		});
 	}
-	else res.render('404');          
+	else res.status(400).render('404');     
 });
+
+// --- Error page ---
+
+router.get('*', function(req, res){
+	res.status(400).render('404');
+});
+
 
 module.exports = router
 

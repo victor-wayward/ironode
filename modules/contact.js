@@ -8,16 +8,16 @@
 
 const path = require('path');					// unix/dos path resolver
 const appdir = require('app-root-dir').get();	// get app path
-const log = require('logger');					// create logger (modules/logger.js)
-const User = require('user');					// use user model (modules/user.js)
-const validate = require('validation');			// use validation helpers (modules/user.js)
+const log = require('logger');					// create logger (modules/logger)
+const User = require('user');					// use user model (modules/user)
+const validate = require('validation');			// use validation helpers (modules/user)
 const i18n = require('translation');			// use translation middleware
 const moment = require('moment-timezone');;		// date/time manipulation lib (with timezone)
 const https = require('https');					// https module
 const fs = require('fs');						// file system functions
 
 const config = require('config');				// read configuration (app/config)
-const captcha_secret = config.get('contact.captcha.google-secret');
+const captcha_secret = config.get('site.captcha.google-secret');
 const timezone = config.get('server.timezone');
 
 function save2file(form) {
@@ -46,7 +46,7 @@ exports.contact = function(form, show, done) {
 		if (!status) faults++;
 	});
 	if (faults) {
-		log.error("contact: validation faults (hostile posting)");
+		log.error("contact: validation faults");
 		return done(null, form, i18n.__("contact.err.GENERIC"));
 	}
 	

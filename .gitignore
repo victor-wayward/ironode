@@ -9,3 +9,5 @@ logs/
 public/avatar
 public/ext
 
+# ignore my config
+config/local.json

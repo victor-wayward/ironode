@@ -2,9 +2,9 @@
 			<!-- this block appears only in small devices < 768px -->
 			<div class="row mt-3 hidden-md-up">
 				<div class="col-12 cardlike">
-					<img class="img-fluid" src="/img/teaser.jpg">
+					<img class="img-fluid" src="/img/teaser3.jpg" alt="teaser">
 						{{#if error}}
-							<h4 class="card-title">{{I18n "err.gen.TITLE"}}</h4>
+							<h4 class="card-title">{{I18n "profile.err.TITLE"}}</h4>
 							<p class="card-text">{{ error }}</p>
 						{{^}}
 							<h4 class="card-title">{{I18n "profile.TITLE"}}</h4>
@@ -23,10 +23,10 @@
 					
 					<!-- this appears only in large devices >= 768px -->
 					<div class="card sidecard hidden-sm-down">
-						<img class="card-img-top" src="/img/teaser3.jpg" alt="lips">
+						<img class="card-img-top" src="/img/teaser3.jpg" alt="teaser">
 						<div class="card-block">
 							{{#if error}}
-								<h4 class="card-title">{{I18n "err.gen.TITLE"}}</h4>
+								<h4 class="card-title">{{I18n "profile.err.TITLE"}}</h4>
 								<p class="card-text">{{ error }}</p>
 							{{^}}
 								<h4 class="card-title">{{I18n "profile.TITLE"}}</h4>
@@ -59,14 +59,14 @@
 
 									<form class="form" role="form" autocomplete="off" action="/profile/account" method="post" enctype="application/x-www-form-urlencoded">
 										<div class="form-group">
-											<label for="inputUsername" class="mb-0">{{I18n "register.USERNAME"}}</label>
+											<label for="inputUsername" class="mb-0">{{I18n "profile.USERNAME"}}</label>
 											<label for="errorUsername" class="mb-0 errlabel"></label>
-											<input type="text" class="form-control" id="inputUsername" name="username" maxlength="15" autocomplete="on" value="{{#if xform}}{{xform.name}}{{^}}{{user.username}}{{/if}}" {{#unless change_uname}}readonly{{/unless}}>
+											<input type="text" class="form-control" id="inputUsername" name="username" maxlength="15" autocomplete="on" value="{{#if xform}}{{xform.name}}{{^}}{{user.username}}{{/if}}" {{#unless ccuname}}readonly{{/unless}}>
 										</div>
 										<div class="form-group">
-											<label for="inputEmail" class="mb-0">{{I18n "register.EMAIL"}}</label>
+											<label for="inputEmail" class="mb-0">{{I18n "profile.EMAIL"}}</label>
 											<label for="errorEmail" class="mb-0 errlabel"></label>
-											<input type="email" class="form-control" id="inputEmail" name="email" maxlength="30" autocomplete="on" value="{{#if xform}}{{xform.email}}{{^}}{{user.email}}{{/if}}" {{#unless change_email}}readonly{{/unless}}>
+											<input type="email" class="form-control" id="inputEmail" name="email" maxlength="30" autocomplete="on" value="{{#if xform}}{{xform.email}}{{^}}{{user.email}}{{/if}}" {{#unless ccemail}}readonly{{/unless}}>
 										</div>
 										<div class="form-group text-right">
 											<button type="submit" class="btn form-btn {{#if disabled}}disabled{{/if}}" {{#if disabled}}disabled{{/if}}>{{I18n "profile.UPDATE"}}</button>
@@ -80,12 +80,12 @@
 								<div class="tab-pane {{active.password}}" id="password" role="tabpanel">
 									<form class="form" role="form" autocomplete="off" id="password" action="/profile/password" method="post" enctype="application/x-www-form-urlencoded">
 										<div class="form-group">
-											<label for="inputPassword" class="mb-0">{{I18n "register.NEWPASSWORD"}}</label>
+											<label for="inputPassword" class="mb-0">{{I18n "profile.NEWPASSWORD"}}</label>
 											<label for="errorPassword" class="mb-0 errlabel"></label>
 											<input type="password" class="form-control" id="inputPassword" name="password" maxlength="15" autocomplete="off" value="{{xform.password}}" placeholder="">
 										</div>
 										<div class="form-group">
-											<label for="inputVerify" class="mb-0">{{I18n "register.VERIFY"}}</label>
+											<label for="inputVerify" class="mb-0">{{I18n "profile.VERIFY"}}</label>
 											<label for="errorVerify" class="mb-0 errlabel"></label>
 											<input type="password" class="form-control" id="inputVerify" name="verify" maxlength="15" autocomplete="off" value="{{xform.verify}}" placeholder="">
 										</div>
@@ -131,6 +131,7 @@
 								</div>
 								
 								<!-- Modal -->
+								<script src="/ext/jquery.Jcrop.min.js"></script>
 								<div class="modal fade" id="cropModal" tabindex="-1" role="dialog" aria-labelledby="cropModal" aria-hidden="true">
 								<div class="modal-dialog" role="document">
 									<div class="modal-content">
@@ -209,10 +210,6 @@
 			</div>
 			
 			<script language="javascript" src="/js/socket.io.js"></script>
-
-			
-
-  
 			<script>
 	 			
 				$(document).ready(function() {

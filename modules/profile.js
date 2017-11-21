@@ -1,25 +1,28 @@
 
 // --- Profile Controller ---
 
-//profile.update(req.user, req.body, req.params.form, function(result, xform, msg) {
+// Update user profile 
 
-const path = require('path');
-const appdir = require('app-root-dir').get();
-const log = require('logger');			// create logger (modules/logger.js)
-var User = require('user');				// use user model (modules/user.js)
-const bcrypt = require('bcrypt');		// bcrypt lib to hash password
-const config = require('config');		// read configuration (app/config)
-var validate = require('validation');	// use validation helpers (modules/validation.js)
-var i18n = require('translation');		// use translation middleware
-const sendmail = require('email');		// email module (modules/email.js)
-var jimp = require("jimp");
+const path = require('path');					// unix/dos path resolver
+const appdir = require('app-root-dir').get();	// get app path
+const log = require('logger');					// create logger (modules/logger)
+const User = require('user');					// use user model (modules/user)
+const bcrypt = require('bcrypt');				// bcrypt lib to hash password
+const jimp = require("jimp");					// jimp image processing lib
+
+const validate = require('validation');			// use validation helpers (modules/validation)
+const i18n = require('translation');			// use translation (modules/translation)
+const sendmail = require('email');				// email module (modules/email)
+
+const config = require('config');				// read configuration (app/config)
 const rounds = config.get('register.hash-rounds');
+const confirm_email = (config.get('register.confirm-email') == 'true');
 
-exports.update = function(user, inp, form, done) {  // is user really needed to be passed here or is it already available since user is logged in?
+exports.update = function(user, inp, form, done) {
 	
-	log.info("Profile change request by " + user.id + ": " + JSON.stringify(inp));
+	log.info("Profile: change request by " + user.info + ": " + JSON.stringify(inp));
 	
-	if (user.id != inp.id) return done(null, inp, i18n.__("err.profile.noid"));
+	if (user.id != inp.id) return done(null, inp, i18n.__("profile.err.noid"));
 	
 	switch(form) {
 		
@@ -32,30 +35,39 @@ exports.update = function(user, inp, form, done) {  // is user really needed to 
 			validate.email(inp.email, function(status) {
 				if (!status) faults++;
 			}, inp.id);
-			if (faults) return done(null, inp, i18n.__("err.profile.ACCOUNT"));
+			if (faults) return done(null, inp, i18n.__("profile.err.GENERIC"));
 			
 			user.setAccount(inp, function (err) {
 				if (err) {
 					log.error("setAccount: " + err);
-					return done(null, inp, i18n.__("err.profile.ACCOUNT"));
+					return done(null, inp, i18n.__("profile.err.ACCOUNT"));
 				} 
-				else {
-					if (user.email != inp.email) {				
+			
+				if (user.email != inp.email) {
+					if (confirm_email) {
 						sendmail.now(user, 'newemail', function (err) {
 							if (err) {
 								log.error("sendmail: " + inp.email + ": " + err);
-								return done(null, inp, i18n.__("err.res.GENERIC"));
+								return done(null, inp, i18n.__("profile.err.GENERIC"));
 							}
-							else {
-								log.info("Sent (newmail) mail: " + inp.email);
-								return done(true, inp, i18n.__("profile.EMAILSENT"));
-							}
+							log.info("Sent (newmail) mail: " + inp.email);
+							return done(true, inp, i18n.__("profile.EMAILSENT"));
 						});	
 					}
 					else {
-						log.info("Account Update: " + user.id);
-						return done(true, inp, i18n.__("profile.UPDATED"));		
+						user.setEmail (inp.email, function (err) {
+							if (err) {
+								log.error("setEmail: Failed for " + user.info);
+								return done(null, inp, i18n.__("profile.err.GENERIC"));
+							}
+							log.info("setEmail: Passed for " + user.info);
+							return done(true, inp, i18n.__("profile.UPDATED"));
+						});
 					}
+				}
+				else {
+					log.info("Account Update: " + user.info);
+					return done(true, inp, i18n.__("profile.UPDATED"));
 				}
 			});
 
@@ -70,21 +82,21 @@ exports.update = function(user, inp, form, done) {  // is user really needed to 
 			validate.verify({ password: inp.password, verify: inp.verify }, function(status, statustxt) {
 				if (!status) faults++;
 			});
-			if (faults) return done(null, '', i18n.__("err.profile.PASSWORD"));
+			if (faults) return done(null, '', i18n.__("profile.err.PASSWORD"));
 	
 			bcrypt.hash(inp.password, rounds, function(err, hash) {			
 				if (err) {
 					log.error("profile: bcrypt error");
-					return done(null, '', i18n.__("err.profile.GENERIC"));
+					return done(null, '', i18n.__("profile.err.GENERIC"));
 				} else {
 					user.setPassword (hash, function (err) {
 						if (err) {
-							log.error("setPassword: Failed for " + user.id);
-							return done(null, '', i18n.__("err.profile.GENERIC"));
+							log.error("setPassword: Failed for " + user.info);
+							return done(null, '', i18n.__("profile.err.GENERIC"));
 						} 
 						else {
-							log.info("setPassword: for " + user.id);
-							return done(true, '', i18n.__("reset.DONE"));
+							log.info("setPassword: for " + user.info);
+							return done(true, '', i18n.__("profile.DONE"));
 						}
 					});
 				}
@@ -97,7 +109,7 @@ exports.update = function(user, inp, form, done) {  // is user really needed to 
 			user.setProfile (inp, function (err) {
 				if (err) {
 					log.error("setProfile: Failed for " + user.id);
-					return done(null, inp, i18n.__("err.profile.GENERIC"));
+					return done(null, inp, i18n.__("profile.err.GENERIC"));
 				} 
 				else {
 					log.info("setProfile: for " + user.id);
@@ -112,7 +124,7 @@ exports.update = function(user, inp, form, done) {  // is user really needed to 
 			user.setAddress (inp, function (err) {
 				if (err) {
 					log.error("setProfile: Failed for " + user.id);
-					return done(null, inp, i18n.__("err.profile.GENERIC"));
+					return done(null, inp, i18n.__("profile.err.GENERIC"));
 				} 
 				else {
 					log.info("setProfile: for " + user.id);
@@ -123,21 +135,18 @@ exports.update = function(user, inp, form, done) {  // is user really needed to 
         break;
 		
 		default:
-			return done(null, inp, i18n.__("err.profile.NOFORM"));
+			return done(null, inp, i18n.__("profile.err.NOFORM"));
 	}
 }
 
 exports.setEmail = function(user, done) {
-	user.setEmail (function (err) {
+	user.setEmail (null, function (err) {
 		if (err) {
-			log.error("setEmail: Failed for " + user.id);
-			return done(null, i18n.__("err.profile.GENERIC"));
+			log.error("setEmail: Failed for " + user.info);
+			return done(null, i18n.__("profile.err.GENERIC"));
 		}
-		else 
-		{
-			log.info("setEmail: Passed for " + user.id);
-			return done(true, i18n.__("profile.UPDATED"));
-		}
+		log.info("setEmail: Passed for " + user.info);
+		return done(true, i18n.__("profile.UPDATED"));
 	});
 }
 	
@@ -150,13 +159,13 @@ exports.upload = function(user, file, done) {
 	file.mv(abs_avatarPath, function(err) {
 		if (err) {
 			log.error("avatar: " + err);
-			return done(i18n.__("err.avatar.GENERIC"));
+			return done(i18n.__("profile.err.AVATAR"));
 		}
 		else {
 			jimp.read(abs_avatarPath, function (err, image) {					
 				if (err) {
 					log.error("jimp.read: " + err);
-					return done(i18n.__("err.avatar.GENERIC"));
+					return done(i18n.__("profile.err.AVATAR"));
 				}
 				else {
 					image
@@ -179,13 +188,13 @@ exports.crop = function(user, image2crop, done) {
 	user.setAvatar(avatarPath, function(err) {
 		if (err) {
 			log.error("setAvatar: " + err);
-			return done(i18n.__("err.avatar.GENERIC"));
+			return done(i18n.__("profile.err.AVATAR"));
 		}
 		else {
 			jimp.read(newImagePath, function (err, image) {					
 				if (err) {
 					log.error("jimp.read: " + err);
-					return done(i18n.__("err.avatar.GENERIC"));
+					return done(i18n.__("profile.err.AVATAR"));
 				}
 				else {
 					image
@@ -201,17 +210,3 @@ exports.crop = function(user, image2crop, done) {
 
 
 
-/*	
-
-user.saveUser(_reg, function(err, user) {
-	if (err) {
-		log.error(err);
-		return done(null);
-	}
-	else {
-		log.info('Registration passed for ' + user.email);
-		return done(user);
-	}
-});
-
-*/

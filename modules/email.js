@@ -10,10 +10,10 @@ const config = require('config');					// read configuration (app/config)
 const i18n = require('translation');				// use translation middleware
 
 const sendpulse = require("sendpulse-api");
-const user_id = config.get('email.sendpulse-id');
+const userid = config.get('email.sendpulse-id');
 const secret = config.get('email.sendpulse-secret');
 const token_storage = path.resolve(appdir + '/tmp/mail_');
-sendpulse.init(user_id, secret, token_storage);
+sendpulse.init(userid, secret, token_storage);
 
 const sitename = config.get('site.name');
 const siteurl = config.get('site.url');
@@ -68,57 +68,11 @@ exports.now = function (user, type, done) {
 				"email": recipient_addr
 			}]
 		};
-		
+			
 		sendpulse.smtpSendMail(function(ans) {	
 			return (ans.result) ? done(null) : done(JSON.stringify(ans));
 		}, email);
+		
 	});
 }
 
-
-
-/*
-
-sendpulse.init(user_id, secret, token_storage);
-
-var email = {
-        "html" : i18n.__("reset.email.TITLE", { sitename: config.get('email.from.name'); }),
-        "text" : "Example text",
-        "subject" : "Example subject",
-        "from" : {
-            "name" : "farasi.gr",
-            "email" : "support@farasi.gr"
-        },
-        "to" : [
-            {
-                "name" : "Victor",
-                "email" : "victor.bechar@vodafone.com"
-            },
-        ]
-};
-
-module.exports = function(email, template, done) {
-	
-	sendpulse.smtpSendMail(done, email);
-	
-}
-
-*/
-
-/*
-var email = {
-        "html" : "<h1>Example text</h1>",
-        "text" : "Example text",
-        "subject" : "Example subject",
-        "from" : {
-            "name" : "farasi.gr",
-            "email" : "support@farasi.gr"
-        },
-        "to" : [
-            {
-                "name" : "Victor",
-                "email" : "victor.bechar@vodafone.com"
-            },
-        ]
-};
-*/	

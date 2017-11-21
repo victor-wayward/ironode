@@ -4,12 +4,14 @@
 // authenticates users using passport
 // exports the passport object
 
-const log = require('logger');								// create logger
-const User = require('user');								// use user model
-const bcrypt = require('bcrypt');							// use bcrypt lib to hash passwords
-const passport = require('passport');						// use passport for authentication	
-const LocalStrategy = require('passport-local').Strategy;	// with local strategy
-const i18n = require('translation');						// use translation middleware
+const log = require('logger');									// create logger
+const User = require('user');									// use user model
+const i18n = require('translation');							// use translation middleware
+const bcrypt = require('bcrypt');								// use bcrypt lib to hash passwords
+
+const passport = require('passport');							// use passport for authentication	
+const LocalStrategy = require('passport-local').Strategy;		// with local strategy
+const FacebookStrategy = require('passport-facebook').Strategy;	// with FB Startegy
 
 
 // local strategy requires a verify function that receives user credentials (form submitted) 
@@ -25,11 +27,11 @@ passport.use(new LocalStrategy(
 			}
 			if (!user) {
 				log.error('findUser: ' + username + ' does not exist');
-				return done(null, false, { message: i18n.__("err.auth.NOTEXISTS") });
+				return done(null, false, { message: i18n.__("login.err.NOTEXISTS") });
 			}
 			if (!user.login.enabled) {
 				log.error('findUser: ' + username + ' is disabled');
-				return done(null, false, { message: i18n.__("err.auth.DISABLED") });
+				return done(null, false, { message: i18n.__("login.err.DISABLED") });
 			}
 			
 			bcrypt.compare(password, user.password, function(err, res) {
@@ -53,7 +55,7 @@ passport.use(new LocalStrategy(
 							return done(err);
 						}
 					});
-					return done(null, false, { message: i18n.__("err.auth.BADCRED") });
+					return done(null, false, { message: i18n.__("login.err.BADCRED") });
 				} 
 			});
 		});

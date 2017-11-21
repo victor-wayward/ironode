@@ -7,6 +7,7 @@
 
 const log = require('logger');					// create logger (modules/logger.js)
 const User = require('user');					// use user model (modules/user.js)
+const i18n = require('translation');			// use translation middleware
 
 module.exports = function(username, token, done) {
 	

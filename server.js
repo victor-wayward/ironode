@@ -107,7 +107,7 @@ app.use(function(req, res, next) {
 		{ name: i18n.__('nav.HOME'), link: '/' },	
 		{ name: i18n.__('nav.CONTACT'), link: '/contact' },
 	];
-	if (req.user) res.locals.navlinks.push({ name: i18n.__('nav.PROFILE'), link: '/profile' });
+	// if (req.user) res.locals.navlinks.push({ name: i18n.__('nav.PROFILE'), link: '/profile' });
 	next();
 });
 
