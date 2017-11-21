@@ -8,6 +8,7 @@ logs/
 # ignore external libs, fonts, avatar directories
 public/avatar
 public/ext
+public/js
 
 # ignore my config
 config/local.json
