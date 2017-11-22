@@ -1,5 +1,5 @@
 
-## Ironode
+## Ironode Project
 
 ### A website template and user system starter
 
@@ -20,6 +20,7 @@ What you get is:
 - Email support with SendPulse (easy to modify)
 - Registration email, forgot password email, change email address email
 - A good to start with user model
+
 
 
   

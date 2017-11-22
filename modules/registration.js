@@ -22,7 +22,40 @@ const confirm_email = (config.get('register.confirm-email') == 'true');
 const hash_rounds = config.get('register.hash-rounds');
 
 
-// saves user to the database, optionally sends activation email (not exported)
+// contacts Google to verify CAPTCHA response (local)
+function CheckCAPTCHA (resp, done) {
+
+	if (!resp) {
+		log.error("registration: Robot approaching");
+		return done(i18n.__("register.err.UROBOT"));
+	}
+	
+	const verlink = "https://www.google.com/recaptcha/api/siteverify?secret=" + captcha_secret + "&response=" + resp;
+	https.get(verlink, function(res) {
+		let data = "";
+		res.on('data', function (chunk) {
+			data += chunk.toString();
+		});
+		res.on('end', function() {
+			try {
+				let google_response = JSON.parse(data);
+				if (google_response.success) return done(null);
+				else {
+					log.error("registration: Robot approaching");
+					return done(i18n.__("register.err.UROBOT"));
+				}
+			} catch (err) {
+				log.error("registration:" + JSON.stringify(err));
+				return done(i18n.__("register.err.SYSERROR"));
+			}
+		});
+	}).on('error', function(err) {
+		log.error("registration: " + JSON.stringify(err));
+		return done(i18n.__("register.err.NOHTTPS"));
+	});
+}
+
+// saves user to the database, optionally sends activation email (local)
 function CreateUser(reg, done) {
 		
 	const seed = crypto.randomBytes(20);
@@ -97,35 +130,12 @@ exports.register = function(reg, show, done) {
 		return done(null, reg, i18n.__("register.err.GENERIC"));
 	}
 	
-	if (show) {																						// captcha case
-		if (!reg["g-recaptcha-response"]) return done(null, reg, i18n.__("register.err.UROBOT"));
-			
-		const verlink = "https://www.google.com/recaptcha/api/siteverify?secret=" + captcha_secret + "&response=" + reg["g-recaptcha-response"];
-		https.get(verlink, function(res) {
-			let data = "";
-			res.on('data', function (chunk) {
-				data += chunk.toString();
+	if (show) {
+		CheckCAPTCHA(reg["g-recaptcha-response"], function(err) {
+			if (err) return done(null, reg, err);
+			CreateUser(reg, function(newuser, msg) {
+				return (newuser) ? done(newuser, null, msg) : done(null, reg, msg);
 			});
-			res.on('end', function() {
-				try {
-					let google_response = JSON.parse(data);
-					if (google_response.success) {
-						CreateUser(reg, function(newuser, msg) {
-							return (newuser) ? done(newuser, null, msg) : done(null, reg, msg);
-						});
-					}
-					else {
-						log.error("contact: Robot approaching");
-						return done(null, reg, i18n.__("register.err.UROBOT"));
-					}
-				} catch (err) {
-					log.error("contact:" + JSON.stringify(err));
-					return done(null, reg, i18n.__("register.err.SYSERROR"));
-				}
-			});
-		}).on('error', function(err) {
-			log.error("contact: " + JSON.stringify(err));
-			return done(null, reg, i18n.__("register.err.NOHTTPS"));
 		});
 	}
 	else {
