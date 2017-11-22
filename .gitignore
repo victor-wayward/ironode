@@ -1,14 +1,16 @@
 
-# ignore node module directory
+# ignore node modules directory
 node_modules/
 
 # ignore logs directory
 logs/
 
-# ignore external libs, fonts, avatar directories
+# ignore external libs & avatar files
 public/avatar
 public/ext
-public/js
 
 # ignore my config
 config/local.json
+
+# ignore temporary files
+tmp/
