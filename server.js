@@ -35,7 +35,7 @@ var app = express();
 
 
 // trust first proxy (enable it if you use say nginx at the front)
-if (app.get('env') === 'production') app.set('trust proxy', 1); 		
+//if (app.get('env') === 'production') app.set('trust proxy', 1); 		
 
 // protect headers with helmet
 var helmet = require('helmet');
