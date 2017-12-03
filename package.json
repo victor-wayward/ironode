@@ -4,6 +4,7 @@
   "description": "A website template and user system starter",
   "main": "server.js",
   "scripts": {
+	"start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
