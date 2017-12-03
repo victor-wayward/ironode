@@ -14,3 +14,6 @@ config/local.json
 
 # ignore temporary files
 tmp/*
+
+# leave folders intact
+!*.gitkeep
