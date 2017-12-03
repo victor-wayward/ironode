@@ -3,14 +3,14 @@
 node_modules/
 
 # ignore logs directory
-logs/
+logs/*
 
 # ignore external libs & avatar files
-public/avatar
-public/ext
+public/avatar/*
+public/ext/*
 
 # ignore my config
 config/local.json
 
 # ignore temporary files
-tmp/
+tmp/*

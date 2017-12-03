@@ -29,30 +29,31 @@ function CheckCAPTCHA (resp, done) {
 		log.error("registration: Robot approaching");
 		return done(i18n.__("register.err.UROBOT"));
 	}
-	
-	const verlink = "https://www.google.com/recaptcha/api/siteverify?secret=" + captcha_secret + "&response=" + resp;
-	https.get(verlink, function(res) {
-		let data = "";
-		res.on('data', function (chunk) {
-			data += chunk.toString();
-		});
-		res.on('end', function() {
-			try {
-				let google_response = JSON.parse(data);
-				if (google_response.success) return done(null);
-				else {
-					log.error("registration: Robot approaching");
-					return done(i18n.__("register.err.UROBOT"));
+	else {
+		const verlink = "https://www.google.com/recaptcha/api/siteverify?secret=" + captcha_secret + "&response=" + resp;
+		https.get(verlink, function(res) {
+			let data = "";
+			res.on('data', function (chunk) {
+				data += chunk.toString();
+			});
+			res.on('end', function() {
+				try {
+					let google_response = JSON.parse(data);
+					if (google_response.success) return done(null);
+					else {
+						log.error("registration: Robot approaching");
+						return done(i18n.__("register.err.UROBOT"));
+					}
+				} catch (err) {
+					log.error("registration:" + JSON.stringify(err));
+					return done(i18n.__("register.err.SYSERROR"));
 				}
-			} catch (err) {
-				log.error("registration:" + JSON.stringify(err));
-				return done(i18n.__("register.err.SYSERROR"));
-			}
+			});
+		}).on('error', function(err) {
+			log.error("registration: " + JSON.stringify(err));
+			return done(i18n.__("register.err.NOHTTPS"));
 		});
-	}).on('error', function(err) {
-		log.error("registration: " + JSON.stringify(err));
-		return done(i18n.__("register.err.NOHTTPS"));
-	});
+	}
 }
 
 // saves user to the database, optionally sends activation email (local)
@@ -76,7 +77,7 @@ function CreateUser(reg, done) {
 				authToken: authToken
 			}
 		});
-		
+
 		newUser.save(function (err) {
 			if (err) {
 				log.error('save: ' + err);
@@ -96,7 +97,7 @@ function CreateUser(reg, done) {
 				log.info("Registration passed: " + newUser.info);
 				return done(newUser, i18n.__("register.NEWACCOUNT"));
 			}
-		});		
+		});
 	});
 }
 	

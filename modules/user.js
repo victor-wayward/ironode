@@ -1,4 +1,29 @@
 
+//login social, set username equal to email without @ or ..
+//do not show username
+//social is array, showing methods ... holds ids?
+//hold current login method, status, 0 normal
+//set social(0 no social) to variable 1: facebook, 2 google ... etc
+//if email exists - do not create account, just populate name etc.
+
+//have an array of allowed login methods, 0 normal, 1 facebook etc ...
+//if does registration ... can password reset, recover password etc ...
+/*
+            newUser.fb.id    = profile.id; // set the users facebook id                 
+            newUser.fb.access_token = access_token; // we will save the token that facebook provides to the user                    
+            newUser.fb.firstName  = profile.name.givenName;
+            newUser.fb.lastName = profile.name.familyName; // look at the passport user profile to see how names are returned
+            newUser.fb.email = profile.emails[0].value; // facebook can return multiple emails so we'll take the first
+ 
+ 
+
+
+
+*/
+
+
+
+
 // --- User Model ---
 
 // interacts with db, defines user schema, provides user methods
@@ -29,6 +54,16 @@ var userSchema = new db.Schema({
 			last: { type: Date, default: 0 },
 			counter: { type: Number, default: 0 },
 		},
+	},
+	
+	social: {
+		facebook: {
+			id: String,
+			token: String,
+			email: String,
+			name: String,
+			last: { type: Date, default: Date.now() },
+		}
 	},
 	
 	reset: { 
