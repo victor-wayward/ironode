@@ -22,7 +22,9 @@ What you get is:
 - Registration email, forgot password email, change email address email
 - A good to start with user model
 
-### Demo: http://ironode.com
+### Demo
+
+http://ironode.com
 
 ### Install
 
