@@ -15,7 +15,7 @@
 	},
 	"login": {
 		"TITLE": "Login",
-		"SUB": "Welcome aboard!",
+		"SUB": "Welcome back! You may login either with your local account or any social account.",
 		"USERNAME": "Username",
 		"PASSWORD": "Password",
 		"FORGOT": "I forgot my username/password",
@@ -24,7 +24,7 @@
 			"TITLE": "Error",
 			"NOTEXISTS": "Bad credentials",
 			"BADCRED": "Bad credentials",
-			"DISABLED": "Account is disabled"
+			"DISABLED": "Account email has not been verified"
 		}
 	},
 	"register": {
@@ -152,5 +152,6 @@
 	},
 	"general": {
 		"MSG404": "404 - I was quietly browsing my logs until you came along."
-	}
+	},
+	"I want to register.": "I want to register."
 }

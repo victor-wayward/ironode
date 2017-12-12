@@ -4,7 +4,7 @@
   "description": "A website template and user system starter",
   "main": "server.js",
   "scripts": {
-	"start": "node server.js",
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -51,6 +51,8 @@
     "morgan": "^1.9.0",
     "passport": "^0.4.0",
     "passport-facebook": "^2.1.1",
+    "passport-google-oauth2": "^0.1.6",
+    "passport-linkedin-oauth2": "^1.5.0",
     "passport-local": "^1.0.0",
     "sanitizer": "^0.1.3",
     "sendpulse-api": "^1.0.2",

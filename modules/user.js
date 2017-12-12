@@ -1,33 +1,8 @@
 
-//login social, set username equal to email without @ or ..
-//do not show username
-//social is array, showing methods ... holds ids?
-//hold current login method, status, 0 normal
-//set social(0 no social) to variable 1: facebook, 2 google ... etc
-//if email exists - do not create account, just populate name etc.
-
-//have an array of allowed login methods, 0 normal, 1 facebook etc ...
-//if does registration ... can password reset, recover password etc ...
-/*
-            newUser.fb.id    = profile.id; // set the users facebook id                 
-            newUser.fb.access_token = access_token; // we will save the token that facebook provides to the user                    
-            newUser.fb.firstName  = profile.name.givenName;
-            newUser.fb.lastName = profile.name.familyName; // look at the passport user profile to see how names are returned
-            newUser.fb.email = profile.emails[0].value; // facebook can return multiple emails so we'll take the first
- 
- 
-
-
-
-*/
-
-
-
-
 // --- User Model ---
 
 // interacts with db, defines user schema, provides user methods
-// two kinds of methods:
+// two kinds of methods
 // statics: methods defined on the schema itself (e.g findUserById is a schema bound method)
 // methods: methods defined on the instance (e.g setPassword is specific to single user instance)
 
@@ -39,9 +14,9 @@ const crypto = require('crypto');		// crypto lib to create tokens (links on emai
 
 var userSchema = new db.Schema({
 	
-	username: { type: String, required: true, unique: true },
-	email: { type: String, required: true, unique: true, index: true },
-	password: { type: String, required: true },
+	username: { type: String, trim: true, sparse: true},
+	email: { type: String, sparse: true, trim: true, lowercase: true, index: true },
+	password: { type: String },
 	group: { type: String, default: 'user' },
 	
 	login: { 
@@ -58,14 +33,34 @@ var userSchema = new db.Schema({
 	
 	social: {
 		facebook: {
-			id: String,
-			token: String,
-			email: String,
+ 			id: { type: String, sparse: true, index: true },
+ 			email: { type: String, lowercase: true },
 			name: String,
-			last: { type: Date, default: Date.now() },
-		}
-	},
-	
+			surname: String,
+ 			last: { type: Date, default: Date.now() },
+			counter: { type: Number, default: 0 },
+			createdOn: { type: Date, default: Date.now() }
+ 		},
+		google: {
+ 			id: { type: String, sparse: true, index: true },
+			email: { type: String, lowercase: true },
+			name: String,
+			surname: String,
+ 			last: { type: Date, default: Date.now() },
+			counter: { type: Number, default: 0 },
+			createdOn: { type: Date, default: Date.now() }
+ 		},
+		linkedin: {
+ 			id: { type: String, sparse: true, index: true },
+			email: { type: String, lowercase: true },
+			name: String,
+			surname: String,
+ 			last: { type: Date, default: Date.now() },
+			counter: { type: Number, default: 0 },
+			createdOn: { type: Date, default: Date.now() }
+ 		}
+ 	},
+ 
 	reset: { 
 		authToken: String,
 		createdOn: { type: Date, default: Date.now() },
@@ -100,10 +95,19 @@ var userSchema = new db.Schema({
 	
 });
 
-// --- Virtual Property ---
+// --- Virtual Properties ---
 
 userSchema.virtual('info').get(function() {  
     return '[' + this.id + '] ' + this.username + ' (' + this.email + ')';
+});
+userSchema.virtual('finfo').get(function() {  
+    return '[' + this.social.facebook.id + '] ' + this.social.facebook.surname + ' (' + this.social.facebook.email + ')';
+});
+userSchema.virtual('ginfo').get(function() {  
+    return '[' + this.social.google.id + '] ' + this.social.google.surname + ' (' + this.social.google.email + ')';
+});
+userSchema.virtual('linfo').get(function() {  
+    return '[' + this.social.linkedin.id + '] ' + this.social.linkedin.surname + ' (' + this.social.linkedin.email + ')';
 });
 
 // --- Static Methods ---
@@ -112,11 +116,7 @@ userSchema.virtual('info').get(function() {
 // calls done with error string or user object
 userSchema.statics.findUser = function(who, done) {
 	
-	var query;
-	
-	who.includes('@') ? 
-		query = this.where({ 'email': who }) :
-		query = this.where({ 'username': who });
+	var query = who.includes('@') ? this.where({ 'email': who.toLowerCase() }) : this.where({ 'username': who });
 
 	query.findOne(function (err, user) {
 		if (err) return done('db(findUser): ' + err);
@@ -127,22 +127,98 @@ userSchema.statics.findUser = function(who, done) {
 
 // find user by ID 
 // calls done with error string or user object
-userSchema.statics.findUserById = function(id, done) {
+userSchema.statics.findUserByID = function(id, done) {
 	
 	this.findById(id).exec(done(err, user));
 }
 
+// find user by facebook ID (or try to match user by email)
+// calls done with error string or user object
+userSchema.statics.findUserByFacebookID = function(id, email, done) {
+	
+	this.findOne({
+		$or: [
+			{ 'social.facebook.id': id },
+			{ 'email': email },
+			{ 'social.google.email': email },
+			{ 'social.linkedin.email': email }
+		]},
+		function (err, user) {
+			return done(err, user);
+	});
+}
+
+// find user by google ID (google does not provide email)
+// calls done with error string or user object
+userSchema.statics.findUserByGoogleID = function(id, email, done) {
+	
+	this.findOne({
+		$or: [
+			{ 'social.google.id': id },
+			{ 'email': email },
+			{ 'social.facebook.email': email },
+			{ 'social.linkedin.email': email }
+		]},
+		function (err, user) {
+			return done(err, user);
+	});
+}
+
+// find user by linkedin ID (google does not provide email)
+// calls done with error string or user object
+userSchema.statics.findUserByLinkedInID = function(id, email, done) {
+	
+	this.findOne({
+		$or: [
+			{ 'social.linkedin.id': id },
+			{ 'email': email },
+			{ 'social.facebook.email': email },
+			{ 'social.google.email': email }
+		]},
+		function (err, user) {
+			return done(err, user);
+	});
+}
+
+// find user by social email and remove it 
+// since its data have to be moved to the main account
+// calls done with error string or user object
+userSchema.statics.moveSocial = function(email, done) {
+	
+	this.findOneAndRemove({
+		$or: [
+			{ 'social.facebook.email': email },
+			{ 'social.google.email': email },
+			{ 'social.linkedin.email': email }
+		]},
+		function (err, user) {
+			return done(err, user);
+	});
+}
 
 // --- Instance Methods ---
 
-// update user login data on successful login
+// update user login data on successful login depending on method
 // calls done with error string or null
-userSchema.methods.loginUser = function(done) {
+userSchema.methods.loginUser = function(method, profile, done) {
 	
-	this.login.last = Date.now();
-	this.login.counter += 1;
-	this.login.fault.last = 0;
-	this.login.fault.counter = 0;
+	if (method == 'local') {		
+		this.login.last = Date.now();
+		this.login.counter += 1;
+		this.login.fault.last = 0;
+		this.login.fault.counter = 0;
+	}
+	else {
+		this.social[method].id = this.social[method].id || profile.id;
+		this.social[method].email = profile.emails[0].value;
+		this.social[method].name = profile.name.givenName;
+		this.social[method].surname = profile.name.familyName;
+		this.profile.name = this.profile.name || profile.name.givenName;
+		this.profile.surname = this.profile.surname || profile.name.familyName;
+		this.social[method].last = Date.now();
+		this.social[method].counter += 1;
+	}
+		
 	this.save(function (err) {
 		if (err) return done('db(save): ' + err);
 	});
@@ -214,11 +290,19 @@ userSchema.methods.checkToken = function(token, done) {
 // calls done with error string or null
 userSchema.methods.enable = function(done) {
 	
+	let newuser = this;
+	
 	this.login.enabled = true;
 	this.login.createdOn = Date.now();
 	this.login.authToken = null;
-	this.save(function (err) {
-		if (err) return done('save: ' + err);
+	
+	User.moveSocial(this.email, function (err, user) {
+		if (err) return done('move: ' + err);
+		if (user) newuser.social = user.social;
+
+		newuser.save(function (err) {
+			if (err) return done('save: ' + err);
+		});
 	});
 	
 	return done(null);
@@ -233,7 +317,10 @@ userSchema.methods.setPassword = function(password, done) {
 	this.save(function (err) {
 		if (err) return done('save: ' + err);
 	});
-	
+	this.lateEnable(function (err) {
+		if (err) return done('save: ' + err);
+	});
+
 	return done(null);
 }
 
@@ -248,8 +335,28 @@ userSchema.methods.setEmail = function(email, done) {
 	this.save(function (err) {
 		if (err) return done('save: ' + err);
 	});
+	this.lateEnable(function (err) {
+		if (err) return done('save: ' + err);
+	});
 	
 	return done(null);
+}
+
+// enable direct login, user has performed social login and filled in registration data
+// calls done with true/false and message string
+userSchema.methods.lateEnable = function(done) {
+	
+	if (this.username && this.email && this.password) {
+		this.login.enabled = true;
+		this.login.createdOn = Date.now();
+		this.login.authToken = null;
+		this.save(function (err) {
+			if (err) return done(false, 'save: ' + err);
+		});
+		return (true)
+	}	
+	
+	return done(false);
 }
 
 // set user username and email (newemail for now)
@@ -273,6 +380,9 @@ userSchema.methods.setAccount = function(account, done) {
 	}
 
 	this.save(function (err) {
+		if (err) return done('save: ' + err);
+	});
+	this.lateEnable(function (err) {
 		if (err) return done('save: ' + err);
 	});
 	
@@ -321,7 +431,6 @@ userSchema.methods.setAvatar = function(avatar, done) {
 	
 	return done(null);
 }
-
 
 // User model (class name, schema, db collection) 
 var User = db.model('User', userSchema, 'users');

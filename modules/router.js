@@ -22,6 +22,8 @@ const captcha_users = (config.get('contact.captcha.users') == 'true');
 const captcha_guests = (config.get('contact.captcha.guests') == 'true');
 const captcha_key = config.get('site.captcha.google-key');
 
+const lin_state = config.get('social.linkedin.state');
+
 const ccemail = (config.get('register.can-change-email') == 'true');
 const ccuname = (config.get('register.can-change-username') == 'true');
 const disabled = ((ccemail || ccuname) == 'false') ? true : false;
@@ -116,6 +118,37 @@ router.get('/logout', function(req, res) {
 	req.logout();
 	res.redirect('/');
 });
+
+// --- Facebook login ---
+
+router.get('/auth/facebook', passport.authenticate('facebook'));
+
+router.get('/auth/facebook/callback', passport.authenticate('facebook', {
+	successRedirect : '/',
+	failureRedirect : '/login'
+}));
+
+// --- Google login ---
+
+router.get('/auth/google', passport.authenticate('google', { 
+	scope: ['profile', 'email']
+}));
+
+router.get('/auth/google/callback', passport.authenticate('google', {
+	successRedirect : '/',
+	failureRedirect : '/login'
+}));
+
+// --- LinkedIn login ---
+
+router.get('/auth/linkedin', passport.authenticate('linkedin', { 
+	state: lin_state
+}));
+
+router.get('/auth/linkedin/callback', passport.authenticate('linkedin', {
+	successRedirect : '/',
+	failureRedirect : '/login'
+}));
 
 // --- Password Reset ---
 
@@ -279,7 +312,7 @@ router.post('/profile/crop', function(req, res) {
 router.get('/profile', function(req, res) {	
 	if (req.user) {
 		res.render('profile', { 
-			ccuname: ccuname, 											// can change username
+			ccuname: req.user.username ? ccuname : true,				// can change username (allow once if empty)
 			ccemail: ccemail, 											// can change email
 			disabled: disabled, 										// update button on account tab
 			active: { 'account' : 'active' }							// indicates active tab
@@ -295,7 +328,7 @@ router.post('/profile/:form', function(req, res) {
 			else req.flash('error', msg);
 
 			res.render('profile', { 
-				ccuname: ccuname, 										// can change username
+				ccuname: req.user.username ? ccuname : true, 			// can change username (allow once if empty)
 				ccemail: ccemail, 										// can change email
 				disabled: disabled, 									// update button on account tab
 				info: req.flash('info'), 

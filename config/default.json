@@ -28,6 +28,22 @@
 		"can-change-username": "false"
 	},
 
+	"social": {
+		"facebook": {
+			"id": "---",
+			"secret": "---"
+		},
+		"google": {
+			"id": "---",
+			"secret": "---"
+		},
+		"linkedin": {
+			"id": "---",
+			"secret": "---",
+			"state": "---"
+		}
+	},
+	
 	"contact": {
 		"save2file": "true",
 		"send2mail": "true",

@@ -35,6 +35,11 @@
 						<div class="card-block">
 							<form class="form" role="form" autocomplete="off" action="/login" method="post" enctype="application/x-www-form-urlencoded">
 								<div class="form-group">
+									<a href="/auth/facebook"><img class="img-fluid" src="/img/facebook.png" alt="facebook login"></a>
+									<a href="/auth/google"><img class="img-fluid" src="/img/google.png" alt="facebook login"></a>
+									<a href="/auth/linkedin"><img class="img-fluid" src="/img/linkedin.png" alt="facebook login"></a>
+								</div><hr>
+								<div class="form-group">
 									<label for="username">{{I18n "login.USERNAME"}}</label>
 									<input type="text" class="form-control" name="username" id="username" required="" autocomplete="on"	>
 								</div>
@@ -42,12 +47,19 @@
 									<label for="password">{{I18n "login.PASSWORD"}}</label>
 									<input type="password" class="form-control" name="password" id="password" required="" autocomplete="off">
 								</div>
-								<div class="form-group">
-									<a class="small" href="/reset">{{I18n "login.FORGOT"}}</a>
+
+								<div class="container-fluid">
+									<div class="row align-items-end">
+										<div class="form-group m-0 p-0">
+										<a class="small" href="/register">I want to register.</a><br>
+										<a class="small" href="/reset">{{I18n "login.FORGOT"}}</a>
+										</div>
+										<div class="col m-0 p-0 form-group">
+											<button type="submit" class="btn form-btn float-right">{{I18n "login.LOGIN"}}</button>
+										</div>
+									</div>
 								</div>
-								<div class="form-group">
-									<button type="submit" class="btn form-btn float-right">{{I18n "login.LOGIN"}}</button>
-								</div>
+
 							</form>
 						</div>
 					</div>

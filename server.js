@@ -28,15 +28,6 @@ const port = config.get('server.port');
 var express = require('express');
 var app = express();
 
-//app.use((err, req, res, next) => {
-//  // log the error...
-//  res.sendStatus(err.httpStatusCode).json(err)
-//})
-
-
-// trust first proxy (enable it if you use say nginx at the front)
-//if (app.get('env') === 'production') app.set('trust proxy', 1); 		
-
 // protect headers with helmet
 var helmet = require('helmet');
 app.use(helmet());
