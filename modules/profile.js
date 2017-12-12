@@ -20,7 +20,8 @@ const confirm_email = (config.get('register.confirm-email') == 'true');
 
 exports.update = function(user, inp, form, done) {
 	
-	log.info("Profile: change request by " + user.info + ": " + JSON.stringify(inp));
+	if (form == 'password') log.info("Profile: password change request by " + user.info);
+	else log.info("Profile: change request by " + user.info + ": " + JSON.stringify(inp));
 	
 	if (user.id != inp.id) return done(null, inp, i18n.__("profile.err.noid"));
 	
