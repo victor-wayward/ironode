@@ -28,7 +28,7 @@ What you get is:
 
 - Clone the repo: git clone https://github.com/victor-wayward/ironode
 - Install MongoDB
-- Connect to your MongoDB and create a database (issue: use <dbname>;)
+- Connect to your MongoDB and create a database (issue: use \<dbname\>;)
 - Install dependencies: npm install
 - Change file: <app path>/config/default (db-uri!)
 - Launch: npm start
