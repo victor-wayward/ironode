@@ -22,7 +22,7 @@ What you get is:
 - Registration email, forgot password email, change email address email
 - A good to start with user model
 
-### Demo: ironode.com
+### Demo: http://ironode.com
 
 ### Install
 
@@ -30,7 +30,7 @@ What you get is:
 - Install MongoDB
 - Connect to your MongoDB and create a database (issue: use \<dbname\>;)
 - Install dependencies: npm install
-- Change file: <app path>/config/default (db-uri!)
+- Change file: \<app path\>/config/default (db-uri!)
 - Launch: npm start
 - Visit: http://localhost:3000
 
