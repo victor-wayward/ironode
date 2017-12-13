@@ -34,7 +34,7 @@ exports.reset = function(email, done) {
 			return done(null, email, i18n.__("reset.err.GENERIC"));
 		}
 
-		if (user.enabled) {
+		if (user.login.enabled) {
 			user.resetUser (function (err) {
 				if (err) {
 					log.error("resetUser: " + user.info + ": " + err);
