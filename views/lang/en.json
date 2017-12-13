@@ -71,6 +71,7 @@
 			"TOOSOON": "Please wait a few minutes for the activation email before issuing another request.",
 			"BADUSER": "The activation link is wrong or it has been expired.",
 			"BADTOKEN": "The activation link is wrong or it has been expired.",
+			"NOTLOCAL": "This email address is not registered localy. Please use your social account to sign in.",
 			"GENERIC": "Please enter a valid email address.",
 			"SYSERROR": "Something awful happened."
 		}

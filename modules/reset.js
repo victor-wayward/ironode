@@ -34,23 +34,26 @@ exports.reset = function(email, done) {
 			return done(null, email, i18n.__("reset.err.GENERIC"));
 		}
 
-		user.resetUser (function (err) {
-			if (err) {
-				log.error("resetUser: " + user.info + ": " + err);
-				if (err == 'toomany') return done(null, email, i18n.__("reset.err.TOOMANY"));
-				if (err == 'toosoon') return done(null, email, i18n.__("reset.err.TOOSOON"));
-				return done(null, email, i18n.__("reset.err.SYSERROR"));
-			}
-			
-			sendmail.now(user, 'reset', function (err) {
+		if (user.enabled) {
+			user.resetUser (function (err) {
 				if (err) {
-					log.error("sendmail: " + user.email + ": " + err);
-					return done(null, email, i18n.__("reset.err.NOEMAIL"));
+					log.error("resetUser: " + user.info + ": " + err);
+					if (err == 'toomany') return done(null, email, i18n.__("reset.err.TOOMANY"));
+					if (err == 'toosoon') return done(null, email, i18n.__("reset.err.TOOSOON"));
+					return done(null, email, i18n.__("reset.err.SYSERROR"));
 				}
-				log.info("Reset email sent to: " + user.info);
-				return done(user.email, null, i18n.__("reset.EMAILSENT"));
-			});			
-		});
+				
+				sendmail.now(user, 'reset', function (err) {
+					if (err) {
+						log.error("sendmail: " + user.email + ": " + err);
+						return done(null, email, i18n.__("reset.err.NOEMAIL"));
+					}
+					log.info("Reset email sent to: " + user.info);
+					return done(user.email, null, i18n.__("reset.EMAILSENT"));
+				});			
+			});
+		}
+		else return done(null, email, i18n.__("reset.err.NOTLOCAL"));
 	});	
 }
 
