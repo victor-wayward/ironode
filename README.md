@@ -24,7 +24,7 @@ What you get is:
 
 ### Demo
 
-http://ironode.com
+http://demo.ironode.com
 
 ### Install
 
