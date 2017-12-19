@@ -17,3 +17,6 @@ tmp/*
 
 # leave folders intact
 !*.gitkeep
+
+# OSX
+\.DS_Store
