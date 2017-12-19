@@ -20,7 +20,7 @@ module.exports = function(done) {
 		'/node_modules/jquery/dist/jquery.min.js',
 		'/node_modules/socket.io-client/dist/socket.io.js',
 		'/node_modules/jquery-jcrop/js/jquery.Jcrop.min.js',
-		'/node_modules/tether/dist/js/tether.min.js',
+		'/node_modules/popper.js/dist/umd/popper.min.js',
 		'/public/img/Jcrop.gif'
 	]
 	
